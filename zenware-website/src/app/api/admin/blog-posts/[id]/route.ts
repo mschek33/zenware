@@ -7,7 +7,7 @@ const prisma = new PrismaClient()
 // GET /api/admin/blog-posts/[id] - Get single blog post
 export async function GET(
   request: NextRequest,
-  { params }: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> }
 ) {
   try {
     const session = await auth()
@@ -15,8 +15,9 @@ export async function GET(
       return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
     }
 
+    const { id } = await params
     const blogPost = await prisma.blogPost.findUnique({
-      where: { id: params.id }
+      where: { id }
     })
 
     if (!blogPost) {
@@ -33,7 +34,7 @@ export async function GET(
 // PUT /api/admin/blog-posts/[id] - Update blog post
 export async function PUT(
   request: NextRequest,
-  { params }: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> }
 ) {
   try {
     const session = await auth()
@@ -41,6 +42,7 @@ export async function PUT(
       return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
     }
 
+    const { id } = await params
     const body = await request.json()
     const {
       title,
@@ -55,7 +57,7 @@ export async function PUT(
 
     // Get current blog post to check if publishing status changed
     const currentPost = await prisma.blogPost.findUnique({
-      where: { id: params.id }
+      where: { id }
     })
 
     if (!currentPost) {
@@ -67,7 +69,7 @@ export async function PUT(
       where: { slug }
     })
 
-    if (existingPost && existingPost.id !== params.id) {
+    if (existingPost && existingPost.id !== id) {
       return NextResponse.json({ error: 'Slug already exists' }, { status: 400 })
     }
 
@@ -80,7 +82,7 @@ export async function PUT(
     }
 
     const blogPost = await prisma.blogPost.update({
-      where: { id: params.id },
+      where: { id },
       data: {
         title,
         slug,
@@ -97,7 +99,7 @@ export async function PUT(
     return NextResponse.json(blogPost)
   } catch (error) {
     console.error('Error updating blog post:', error)
-    if (error.code === 'P2025') {
+    if (error && typeof error === 'object' && 'code' in error && error.code === 'P2025') {
       return NextResponse.json({ error: 'Blog post not found' }, { status: 404 })
     }
     return NextResponse.json({ error: 'Internal server error' }, { status: 500 })
@@ -107,7 +109,7 @@ export async function PUT(
 // DELETE /api/admin/blog-posts/[id] - Delete blog post
 export async function DELETE(
   request: NextRequest,
-  { params }: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> }
 ) {
   try {
     const session = await auth()
@@ -115,14 +117,15 @@ export async function DELETE(
       return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
     }
 
+    const { id } = await params
     await prisma.blogPost.delete({
-      where: { id: params.id }
+      where: { id }
     })
 
     return NextResponse.json({ message: 'Blog post deleted successfully' })
   } catch (error) {
     console.error('Error deleting blog post:', error)
-    if (error.code === 'P2025') {
+    if (error && typeof error === 'object' && 'code' in error && error.code === 'P2025') {
       return NextResponse.json({ error: 'Blog post not found' }, { status: 404 })
     }
     return NextResponse.json({ error: 'Internal server error' }, { status: 500 })

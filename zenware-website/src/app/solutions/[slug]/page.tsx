@@ -11,25 +11,25 @@ interface Project {
   id: string
   name: string
   slug: string
-  tagline?: string
+  tagline: string | null
   description: string
-  longDescription?: string
-  image?: string
-  status: 'development' | 'beta' | 'live'
-  category: 'regenerative' | 'consciousness' | 'sovereign' | 'ai'
+  longDescription: string | null
+  image: string | null
+  status: string
+  category: string
   tags: string[]
   techStack: string[]
-  demoUrl?: string
-  githubUrl?: string
+  demoUrl: string | null
+  githubUrl: string | null
   featured: boolean
-  createdAt: string
-  updatedAt: string
+  createdAt: Date
+  updatedAt: Date
 }
 
 interface ProjectPageProps {
-  params: {
+  params: Promise<{
     slug: string;
-  };
+  }>;
 }
 
 // Server-side data fetching using Prisma directly
@@ -40,8 +40,8 @@ async function getProject(slug: string): Promise<Project | null> {
     const project = await prisma.project.findUnique({
       where: { slug }
     })
-    
-    return project
+
+    return project as Project | null
   } catch (error) {
     console.error('Error fetching project:', error)
     return null
@@ -63,8 +63,8 @@ async function getRelatedProjects(category: string, currentSlug: string): Promis
         { createdAt: 'desc' }
       ]
     })
-    
-    return projects
+
+    return projects as Project[]
   } catch (error) {
     console.error('Error fetching related projects:', error)
     return []
@@ -73,7 +73,8 @@ async function getRelatedProjects(category: string, currentSlug: string): Promis
 
 export default async function ProjectPage({ params }: ProjectPageProps) {
   // Fetch project from database
-  const project = await getProject(params.slug);
+  const { slug } = await params
+  const project = await getProject(slug);
 
   if (!project) {
     notFound();
@@ -424,7 +425,8 @@ export async function generateStaticParams() {
 }
 
 export async function generateMetadata({ params }: ProjectPageProps): Promise<Metadata> {
-  const project = await getProject(params.slug)
+  const { slug } = await params
+  const project = await getProject(slug)
   
   if (!project) {
     return {

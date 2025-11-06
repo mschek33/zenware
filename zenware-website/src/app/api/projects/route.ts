@@ -12,7 +12,7 @@ export async function GET(request: NextRequest) {
     const featured = searchParams.get('featured')
 
     // Build where clause
-    const where: any = {}
+    const where: Record<string, unknown> = {}
     
     if (category && category !== 'all') {
       where.category = category

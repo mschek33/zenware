@@ -7,7 +7,7 @@ const prisma = new PrismaClient()
 // GET /api/admin/users/[id] - Get single user
 export async function GET(
   request: NextRequest,
-  { params }: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> }
 ) {
   try {
     const session = await auth()
@@ -15,8 +15,9 @@ export async function GET(
       return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
     }
 
+    const { id } = await params
     const user = await prisma.user.findUnique({
-      where: { id: params.id }
+      where: { id }
     })
 
     if (!user) {
@@ -33,7 +34,7 @@ export async function GET(
 // PUT /api/admin/users/[id] - Update user
 export async function PUT(
   request: NextRequest,
-  { params }: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> }
 ) {
   try {
     const session = await auth()
@@ -41,6 +42,7 @@ export async function PUT(
       return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
     }
 
+    const { id } = await params
     const body = await request.json()
     const { name, email } = body
 
@@ -49,12 +51,12 @@ export async function PUT(
       where: { email }
     })
 
-    if (existingUser && existingUser.id !== params.id) {
+    if (existingUser && existingUser.id !== id) {
       return NextResponse.json({ error: 'Email already exists' }, { status: 400 })
     }
 
     const user = await prisma.user.update({
-      where: { id: params.id },
+      where: { id },
       data: {
         name,
         email
@@ -64,7 +66,7 @@ export async function PUT(
     return NextResponse.json(user)
   } catch (error) {
     console.error('Error updating user:', error)
-    if (error.code === 'P2025') {
+    if (error && typeof error === 'object' && 'code' in error && error.code === 'P2025') {
       return NextResponse.json({ error: 'User not found' }, { status: 404 })
     }
     return NextResponse.json({ error: 'Internal server error' }, { status: 500 })
@@ -74,7 +76,7 @@ export async function PUT(
 // DELETE /api/admin/users/[id] - Delete user
 export async function DELETE(
   request: NextRequest,
-  { params }: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> }
 ) {
   try {
     const session = await auth()
@@ -82,14 +84,15 @@ export async function DELETE(
       return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
     }
 
+    const { id } = await params
     await prisma.user.delete({
-      where: { id: params.id }
+      where: { id }
     })
 
     return NextResponse.json({ message: 'User deleted successfully' })
   } catch (error) {
     console.error('Error deleting user:', error)
-    if (error.code === 'P2025') {
+    if (error && typeof error === 'object' && 'code' in error && error.code === 'P2025') {
       return NextResponse.json({ error: 'User not found' }, { status: 404 })
     }
     return NextResponse.json({ error: 'Internal server error' }, { status: 500 })

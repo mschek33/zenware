@@ -7,7 +7,7 @@ const prisma = new PrismaClient()
 // GET /api/admin/services/[id] - Get single service
 export async function GET(
   request: NextRequest,
-  { params }: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> }
 ) {
   try {
     const session = await auth()
@@ -15,8 +15,9 @@ export async function GET(
       return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
     }
 
+    const { id } = await params
     const service = await prisma.service.findUnique({
-      where: { id: params.id }
+      where: { id }
     })
 
     if (!service) {
@@ -33,7 +34,7 @@ export async function GET(
 // PUT /api/admin/services/[id] - Update service
 export async function PUT(
   request: NextRequest,
-  { params }: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> }
 ) {
   try {
     const session = await auth()
@@ -41,6 +42,7 @@ export async function PUT(
       return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
     }
 
+    const { id } = await params
     const body = await request.json()
     const {
       name,
@@ -57,12 +59,12 @@ export async function PUT(
       where: { slug }
     })
 
-    if (existingService && existingService.id !== params.id) {
+    if (existingService && existingService.id !== id) {
       return NextResponse.json({ error: 'Slug already exists' }, { status: 400 })
     }
 
     const service = await prisma.service.update({
-      where: { id: params.id },
+      where: { id },
       data: {
         name,
         slug,
@@ -77,7 +79,7 @@ export async function PUT(
     return NextResponse.json(service)
   } catch (error) {
     console.error('Error updating service:', error)
-    if (error.code === 'P2025') {
+    if (error && typeof error === 'object' && 'code' in error && error.code === 'P2025') {
       return NextResponse.json({ error: 'Service not found' }, { status: 404 })
     }
     return NextResponse.json({ error: 'Internal server error' }, { status: 500 })
@@ -87,7 +89,7 @@ export async function PUT(
 // DELETE /api/admin/services/[id] - Delete service
 export async function DELETE(
   request: NextRequest,
-  { params }: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> }
 ) {
   try {
     const session = await auth()
@@ -95,14 +97,15 @@ export async function DELETE(
       return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
     }
 
+    const { id } = await params
     await prisma.service.delete({
-      where: { id: params.id }
+      where: { id }
     })
 
     return NextResponse.json({ message: 'Service deleted successfully' })
   } catch (error) {
     console.error('Error deleting service:', error)
-    if (error.code === 'P2025') {
+    if (error && typeof error === 'object' && 'code' in error && error.code === 'P2025') {
       return NextResponse.json({ error: 'Service not found' }, { status: 404 })
     }
     return NextResponse.json({ error: 'Internal server error' }, { status: 500 })

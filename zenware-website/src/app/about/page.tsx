@@ -78,15 +78,15 @@ export default function About() {
                   <div className="border-l-4 border-blue-500 pl-6">
                     <h3 className="text-xl font-semibold text-white mb-2">From Superyachts to Sacred Systems</h3>
                     <p className="text-gray-300">
-                      Beginning with mission-critical software for the world's largest superyachts, 
+                      Beginning with mission-critical software for the world&apos;s largest superyachts,
                       I learned that technology must be both reliable and purposeful.
                     </p>
                   </div>
                   <div className="border-l-4 border-purple-500 pl-6">
                     <h3 className="text-xl font-semibold text-white mb-2">The Conscious Awakening</h3>
                     <p className="text-gray-300">
-                      A deep dive into personal transformation and spiritual practices revealed 
-                      technology's potential to serve consciousness rather than distract from it.
+                      A deep dive into personal transformation and spiritual practices revealed
+                      technology&apos;s potential to serve consciousness rather than distract from it.
                     </p>
                   </div>
                   <div className="border-l-4 border-green-500 pl-6">
@@ -156,7 +156,7 @@ export default function About() {
               <span className="kortex-text-gradient">Conscious Technology?</span>
             </h2>
             <p className="kortex-subtitle mb-8 max-w-2xl mx-auto">
-              Let's explore how we can work together to build technology that serves your mission and values.
+              Let&apos;s explore how we can work together to build technology that serves your mission and values.
             </p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
               <button className="kortex-button-primary text-lg px-8 py-4">

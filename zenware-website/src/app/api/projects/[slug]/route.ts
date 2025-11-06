@@ -6,11 +6,12 @@ const prisma = new PrismaClient()
 // GET /api/projects/[slug] - Get single project by slug for public access
 export async function GET(
   request: NextRequest,
-  { params }: { params: { slug: string } }
+  { params }: { params: Promise<{ slug: string }> }
 ) {
   try {
+    const { slug } = await params
     const project = await prisma.project.findUnique({
-      where: { slug: params.slug }
+      where: { slug }
     })
 
     if (!project) {

@@ -256,7 +256,7 @@ export default function AIAutomation() {
               <span className="kortex-text-gradient">Your Business?</span>
             </h2>
             <p className="kortex-subtitle mb-8 max-w-2xl mx-auto">
-              Let's discuss how AI automation can transform your operations while staying true to your values
+              Let&apos;s discuss how AI automation can transform your operations while staying true to your values
             </p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center mb-8">
               <button className="kortex-button-primary text-lg px-8 py-4">

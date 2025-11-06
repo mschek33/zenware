@@ -48,7 +48,7 @@ export default function AdminDashboard() {
       const fetchStats = async () => {
         try {
           const data = await statsApi.get()
-          setStats(data)
+          setStats(data as DashboardStats)
         } catch (error) {
           console.error('Failed to fetch stats:', error)
           if (error instanceof ApiError) {
@@ -132,7 +132,7 @@ export default function AdminDashboard() {
                 Welcome back, Admin! 👋
               </h2>
               <p className="text-gray-400">
-                Here's what's happening with your Zenware platform today.
+                Here&apos;s what&apos;s happening with your Zenware platform today.
               </p>
             </div>
             <div className="hidden md:block">

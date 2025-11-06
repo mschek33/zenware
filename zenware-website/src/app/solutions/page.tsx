@@ -16,19 +16,19 @@ interface Project {
   id: string
   name: string
   slug: string
-  tagline?: string
+  tagline: string | null
   description: string
-  longDescription?: string
-  image?: string
-  status: 'development' | 'beta' | 'live'
-  category: 'regenerative' | 'consciousness' | 'sovereign' | 'ai'
+  longDescription: string | null
+  image: string | null
+  status: string
+  category: string
   tags: string[]
   techStack: string[]
-  demoUrl?: string
-  githubUrl?: string
+  demoUrl: string | null
+  githubUrl: string | null
   featured: boolean
-  createdAt: string
-  updatedAt: string
+  createdAt: Date
+  updatedAt: Date
 }
 
 // Server-side data fetching using Prisma directly

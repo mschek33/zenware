@@ -132,7 +132,8 @@ export default function AdminProjects() {
       setIsModalOpen(false)
     } catch (error) {
       console.error('Failed to save project:', error)
-      alert(`Failed to save project: ${error.message}`)
+      const message = error instanceof Error ? error.message : 'Unknown error'
+      alert(`Failed to save project: ${message}`)
     }
   }
 
