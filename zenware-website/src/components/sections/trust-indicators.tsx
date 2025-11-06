@@ -52,7 +52,7 @@ export default function TrustIndicators() {
                 </div>
               </div>
               <p className="text-gray-300 text-lg leading-relaxed">
-                "{indicator.description}"
+                &quot;{indicator.description}&quot;
               </p>
             </div>
           ))}

@@ -7,15 +7,14 @@ import { signOut, useSession } from 'next-auth/react'
 import { 
   Home, 
   Users, 
-  FolderOpen, 
-  Wrench, 
-  FileText, 
-  Mail, 
-  UserCheck, 
-  LogOut, 
-  Menu, 
-  X,
-  Settings
+  FolderOpen,
+  Wrench,
+  FileText,
+  Mail,
+  UserCheck,
+  LogOut,
+  Menu,
+  X
 } from 'lucide-react'
 
 interface AdminLayoutProps {

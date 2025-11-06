@@ -59,8 +59,7 @@ export default function ProjectModal({ project, onSave, onClose }: ProjectModalP
     handleSubmit,
     formState: { errors },
     setValue,
-    watch,
-    reset
+    watch
   } = useForm<ProjectForm>({
     resolver: zodResolver(projectSchema),
     defaultValues: project ? {

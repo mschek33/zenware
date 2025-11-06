@@ -15,8 +15,8 @@ export default function CallToAction() {
               <span className="kortex-text-gradient">Conscious Technology?</span>
             </h2>
             <p className="kortex-subtitle max-w-3xl mx-auto leading-relaxed">
-              Whether you need AI automation for your business or want to create regenerative systems, 
-              let's explore how technology can serve consciousness.
+              Whether you need AI automation for your business or want to create regenerative systems,
+              let&apos;s explore how technology can serve consciousness.
             </p>
           </div>
 

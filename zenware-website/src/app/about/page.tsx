@@ -110,7 +110,7 @@ export default function About() {
                   </p>
                   <button className="kortex-button-primary">
                     <Link href="/contact" className="flex items-center justify-center">
-                      Let's Work Together
+                      Let&apos;s Work Together
                       <ArrowRight className="ml-2 w-4 h-4" />
                     </Link>
                   </button>

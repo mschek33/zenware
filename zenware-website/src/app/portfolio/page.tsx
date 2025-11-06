@@ -1,9 +1,7 @@
 import Header from '@/components/layout/header';
 import Footer from '@/components/layout/footer';
-import { Button } from '@/components/ui/button';
-import { Badge } from '@/components/ui/badge';
 import Link from 'next/link';
-import { ArrowRight, ExternalLink, Github, Filter, Code, Globe, Smartphone, Database } from 'lucide-react';
+import { ArrowRight, ExternalLink, Github, Code, Globe, Smartphone, Database } from 'lucide-react';
 import { PrismaClient } from '@prisma/client';
 import type { Metadata } from 'next';
 
@@ -344,7 +342,7 @@ export default async function Portfolio() {
               <span className="kortex-text-gradient">Something Amazing?</span>
             </h2>
             <p className="kortex-subtitle mb-8 max-w-2xl mx-auto">
-              Let's discuss how we can bring your vision to life with conscious technology
+              Let&apos;s discuss how we can bring your vision to life with conscious technology
             </p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
               <button className="kortex-button-primary text-lg px-8 py-4">

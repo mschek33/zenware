@@ -1,8 +1,6 @@
 import { notFound } from 'next/navigation';
 import Header from '@/components/layout/header';
 import Footer from '@/components/layout/footer';
-import { Button } from '@/components/ui/button';
-import { Badge } from '@/components/ui/badge';
 import Link from 'next/link';
 import { ArrowRight, ExternalLink, Github, Calendar, Users, Code, Zap } from 'lucide-react';
 import { PrismaClient } from '@prisma/client';
@@ -84,7 +82,7 @@ export default async function ProjectPage({ params }: ProjectPageProps) {
   // Fetch related projects
   const relatedProjects = await getRelatedProjects(project.category, project.slug);
 
-  const getCategoryColor = (category: string) => {
+  const getCategoryColor = () => {
     return 'kortex-badge-primary';
   };
 
@@ -140,7 +138,7 @@ export default async function ProjectPage({ params }: ProjectPageProps) {
           <div className="container mx-auto max-w-4xl relative z-10">
             <div className="text-center mb-8">
               <div className="flex items-center justify-center mb-4">
-                <span className={getCategoryColor(project.category)}>
+                <span className={getCategoryColor()}>
                   {project.category}
                 </span>
                 <div className="flex items-center ml-4">
@@ -361,7 +359,7 @@ export default async function ProjectPage({ params }: ProjectPageProps) {
               <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
                 {relatedProjects.map((relatedProject) => (
                   <div key={relatedProject.id} className="kortex-card">
-                    <span className={getCategoryColor(relatedProject.category)}>
+                    <span className={getCategoryColor()}>
                       {relatedProject.category}
                     </span>
                     <h3 className="text-xl font-semibold text-[#ffffff] mt-4 mb-2">
@@ -388,7 +386,7 @@ export default async function ProjectPage({ params }: ProjectPageProps) {
               Ready to Get Started?
             </h2>
             <p className="kortex-subtitle mb-8 max-w-2xl mx-auto">
-              Let's discuss how {project.name} can transform your business and create positive impact
+              Let&apos;s discuss how {project.name} can transform your business and create positive impact
             </p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
               <Link href="/contact" className="kortex-button-primary">

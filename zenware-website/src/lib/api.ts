@@ -10,7 +10,7 @@ export class ApiError extends Error {
 async function apiRequest(
   url: string,
   options: RequestInit = {}
-): Promise<any> {
+): Promise<unknown> {
   const response = await fetch(url, {
     headers: {
       'Content-Type': 'application/json',
@@ -34,11 +34,11 @@ async function apiRequest(
 export const projectsApi = {
   getAll: () => apiRequest('/api/admin/projects'),
   getById: (id: string) => apiRequest(`/api/admin/projects/${id}`),
-  create: (data: any) => apiRequest('/api/admin/projects', {
+  create: (data: Record<string, unknown>) => apiRequest('/api/admin/projects', {
     method: 'POST',
     body: JSON.stringify(data),
   }),
-  update: (id: string, data: any) => apiRequest(`/api/admin/projects/${id}`, {
+  update: (id: string, data: Record<string, unknown>) => apiRequest(`/api/admin/projects/${id}`, {
     method: 'PUT',
     body: JSON.stringify(data),
   }),
@@ -51,11 +51,11 @@ export const projectsApi = {
 export const servicesApi = {
   getAll: () => apiRequest('/api/admin/services'),
   getById: (id: string) => apiRequest(`/api/admin/services/${id}`),
-  create: (data: any) => apiRequest('/api/admin/services', {
+  create: (data: Record<string, unknown>) => apiRequest('/api/admin/services', {
     method: 'POST',
     body: JSON.stringify(data),
   }),
-  update: (id: string, data: any) => apiRequest(`/api/admin/services/${id}`, {
+  update: (id: string, data: Record<string, unknown>) => apiRequest(`/api/admin/services/${id}`, {
     method: 'PUT',
     body: JSON.stringify(data),
   }),
@@ -68,11 +68,11 @@ export const servicesApi = {
 export const blogPostsApi = {
   getAll: () => apiRequest('/api/admin/blog-posts'),
   getById: (id: string) => apiRequest(`/api/admin/blog-posts/${id}`),
-  create: (data: any) => apiRequest('/api/admin/blog-posts', {
+  create: (data: Record<string, unknown>) => apiRequest('/api/admin/blog-posts', {
     method: 'POST',
     body: JSON.stringify(data),
   }),
-  update: (id: string, data: any) => apiRequest(`/api/admin/blog-posts/${id}`, {
+  update: (id: string, data: Record<string, unknown>) => apiRequest(`/api/admin/blog-posts/${id}`, {
     method: 'PUT',
     body: JSON.stringify(data),
   }),
@@ -92,7 +92,7 @@ export const contactsApi = {
 // Newsletters API
 export const newslettersApi = {
   getAll: () => apiRequest('/api/admin/newsletters'),
-  update: (id: string, data: any) => apiRequest(`/api/admin/newsletters/${id}`, {
+  update: (id: string, data: Record<string, unknown>) => apiRequest(`/api/admin/newsletters/${id}`, {
     method: 'PUT',
     body: JSON.stringify(data),
   }),
@@ -105,11 +105,11 @@ export const newslettersApi = {
 export const usersApi = {
   getAll: () => apiRequest('/api/admin/users'),
   getById: (id: string) => apiRequest(`/api/admin/users/${id}`),
-  create: (data: any) => apiRequest('/api/admin/users', {
+  create: (data: Record<string, unknown>) => apiRequest('/api/admin/users', {
     method: 'POST',
     body: JSON.stringify(data),
   }),
-  update: (id: string, data: any) => apiRequest(`/api/admin/users/${id}`, {
+  update: (id: string, data: Record<string, unknown>) => apiRequest(`/api/admin/users/${id}`, {
     method: 'PUT',
     body: JSON.stringify(data),
   }),

@@ -1,7 +1,5 @@
 import Header from '@/components/layout/header';
 import Footer from '@/components/layout/footer';
-import { Button } from '@/components/ui/button';
-import { Badge } from '@/components/ui/badge';
 import Link from 'next/link';
 import { ArrowRight, Leaf, Brain, Shield, Zap } from 'lucide-react';
 import { PrismaClient } from '@prisma/client';
@@ -104,21 +102,6 @@ export default async function Solutions() {
       projects: projectsByCategory.ai,
     },
   ];
-
-  const getCategoryColor = (category: string) => {
-    switch (category) {
-      case 'regenerative':
-        return 'kortex-badge-primary border-green-500/30 text-green-300';
-      case 'consciousness':
-        return 'kortex-badge-primary border-blue-500/30 text-blue-300';
-      case 'sovereign':
-        return 'kortex-badge-primary border-purple-500/30 text-purple-300';
-      case 'ai':
-        return 'kortex-badge-primary border-orange-500/30 text-orange-300';
-      default:
-        return 'kortex-badge';
-    }
-  };
 
   return (
     <div className="min-h-screen">
@@ -287,7 +270,7 @@ export default async function Solutions() {
               <span className="kortex-text-gradient">Your Vision?</span>
             </h2>
             <p className="kortex-subtitle mb-8 max-w-2xl mx-auto">
-              Let's explore how we can bring your conscious technology vision to life
+              Let&apos;s explore how we can bring your conscious technology vision to life
             </p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
               <button className="kortex-button-primary text-lg px-8 py-4">

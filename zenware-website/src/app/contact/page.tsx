@@ -3,7 +3,6 @@
 import { useState } from 'react';
 import Header from '@/components/layout/header';
 import Footer from '@/components/layout/footer';
-import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Textarea } from '@/components/ui/textarea';
 import { Label } from '@/components/ui/label';
@@ -118,13 +117,13 @@ export default function Contact() {
         <section className="kortex-hero-short">
           <div className="container mx-auto max-w-4xl text-center relative z-10">
             <h1 className="kortex-hero-title mb-6">
-              Let's Create Something{' '}
+              Let&apos;s Create Something{' '}
               <span className="kortex-text-gradient">
                 Extraordinary
               </span>
             </h1>
             <p className="kortex-subtitle mb-8 max-w-3xl mx-auto">
-              Ready to transform your vision into reality? We're here to help you build technology that serves consciousness and creates positive impact.
+              Ready to transform your vision into reality? We&apos;re here to help you build technology that serves consciousness and creates positive impact.
             </p>
             <div className="flex flex-wrap justify-center gap-4 mb-8">
               <div className="flex items-center bg-[#1a1a1a]/80 backdrop-blur-sm rounded-lg px-4 py-2 border border-[#2a2a2a]">
@@ -153,7 +152,7 @@ export default function Contact() {
                   Start Your Project
                 </h2>
                 <p className="kortex-body mb-8">
-                  Tell us about your vision and we'll help you bring it to life with conscious technology.
+                  Tell us about your vision and we&apos;ll help you bring it to life with conscious technology.
                 </p>
                 
                 <form onSubmit={handleSubmit} className="space-y-6">
@@ -236,7 +235,7 @@ export default function Contact() {
                           <SelectItem value="25k-50k">$25,000 - $50,000</SelectItem>
                           <SelectItem value="50k-100k">$50,000 - $100,000</SelectItem>
                           <SelectItem value="100k-plus">$100,000+</SelectItem>
-                          <SelectItem value="discuss">Let's discuss</SelectItem>
+                          <SelectItem value="discuss">Let&apos;s discuss</SelectItem>
                         </SelectContent>
                       </Select>
                     </div>
