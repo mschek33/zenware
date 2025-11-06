@@ -1,0 +1,199 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    --background: 210 20% 98%;
+    --foreground: 222.2 84% 4.9%;
+    --card: 0 0% 100%;
+    --card-foreground: 222.2 84% 4.9%;
+    --popover: 0 0% 100%;
+    --popover-foreground: 222.2 84% 4.9%;
+    --primary: 262 83% 58%;
+    --primary-foreground: 210 20% 98%;
+    --secondary: 210 40% 98%;
+    --secondary-foreground: 222.2 84% 4.9%;
+    --muted: 210 40% 96%;
+    --muted-foreground: 215.4 16.3% 46.9%;
+    --accent: 210 40% 96%;
+    --accent-foreground: 222.2 84% 4.9%;
+    --destructive: 0 84.2% 60.2%;
+    --destructive-foreground: 210 20% 98%;
+    --border: 214.3 31.8% 91.4%;
+    --input: 214.3 31.8% 91.4%;
+    --ring: 262 83% 58%;
+    --radius: 0.75rem;
+  }
+
+  .dark {
+    --background: 222.2 84% 4.9%;
+    --foreground: 210 20% 98%;
+    --card: 222.2 84% 4.9%;
+    --card-foreground: 210 20% 98%;
+    --popover: 222.2 84% 4.9%;
+    --popover-foreground: 210 20% 98%;
+    --primary: 262 83% 58%;
+    --primary-foreground: 222.2 84% 4.9%;
+    --secondary: 217.2 32.6% 17.5%;
+    --secondary-foreground: 210 20% 98%;
+    --muted: 217.2 32.6% 17.5%;
+    --muted-foreground: 215 20.2% 65.1%;
+    --accent: 217.2 32.6% 17.5%;
+    --accent-foreground: 210 20% 98%;
+    --destructive: 0 62.8% 30.6%;
+    --destructive-foreground: 210 20% 98%;
+    --border: 217.2 32.6% 17.5%;
+    --input: 217.2 32.6% 17.5%;
+    --ring: 262 83% 58%;
+  }
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+  
+  html {
+    @apply dark;
+  }
+  
+  body {
+    @apply bg-[#0a0a0a] text-white font-sans;
+    background-image: radial-gradient(circle at 20% 80%, rgba(120, 119, 198, 0.1) 0%, transparent 50%),
+                      radial-gradient(circle at 80% 20%, rgba(255, 119, 198, 0.1) 0%, transparent 50%),
+                      radial-gradient(circle at 40% 40%, rgba(120, 119, 198, 0.05) 0%, transparent 50%);
+  }
+}
+
+@layer components {
+  /* Kortex-inspired dark theme components */
+  .kortex-hero {
+    @apply bg-gradient-to-b from-[#0a0a0a] via-[#111111] to-[#0a0a0a] min-h-screen flex items-center justify-center;
+  }
+  
+  .kortex-hero-short {
+    @apply bg-gradient-to-b from-[#0a0a0a] via-[#111111] to-[#0a0a0a] py-32 px-4 sm:px-6 lg:px-8 flex items-center justify-center relative;
+  }
+  
+  .kortex-hero-short::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background-image: 
+      radial-gradient(circle at 20% 80%, rgba(139, 92, 246, 0.1) 0%, transparent 50%),
+      radial-gradient(circle at 80% 20%, rgba(236, 72, 153, 0.1) 0%, transparent 50%);
+    pointer-events: none;
+  }
+  
+  .kortex-card {
+    @apply bg-[#1a1a1a] border border-[#2a2a2a] rounded-2xl p-8 hover:bg-[#1f1f1f] transition-all duration-300 hover:border-[#3a3a3a];
+  }
+  
+  .kortex-button {
+    @apply bg-[#2a2a2a] hover:bg-[#3a3a3a] text-white px-6 py-3 rounded-lg font-medium transition-all duration-200 border border-[#3a3a3a] hover:border-[#4a4a4a];
+  }
+  
+  .kortex-button-primary {
+    @apply bg-gradient-to-r from-[#8b5cf6] to-[#a855f7] hover:from-[#7c3aed] hover:to-[#9333ea] text-white px-6 py-3 rounded-lg font-medium transition-all duration-200 shadow-lg shadow-purple-500/25 hover:shadow-purple-500/40;
+  }
+  
+  .kortex-text-gradient {
+    @apply bg-gradient-to-r from-[#8b5cf6] via-[#a855f7] to-[#c084fc] bg-clip-text text-transparent;
+  }
+  
+  .kortex-section {
+    @apply bg-[#0a0a0a] py-20 px-4 sm:px-6 lg:px-8;
+  }
+  
+  .kortex-section-alt {
+    @apply bg-[#111111] py-20 px-4 sm:px-6 lg:px-8;
+  }
+  
+  .kortex-nav {
+    @apply bg-[#0a0a0a]/80 backdrop-blur-xl border-b border-[#2a2a2a];
+  }
+  
+  .kortex-testimonial {
+    @apply bg-[#1a1a1a] border border-[#2a2a2a] rounded-2xl p-8 text-center;
+  }
+  
+  .kortex-feature-card {
+    @apply bg-gradient-to-br from-[#1a1a1a] to-[#151515] border border-[#2a2a2a] rounded-2xl p-8 hover:from-[#1f1f1f] hover:to-[#1a1a1a] transition-all duration-300;
+  }
+  
+  .kortex-hero-title {
+    @apply text-6xl md:text-7xl lg:text-8xl font-bold leading-tight tracking-tight;
+  }
+  
+  .kortex-section-title {
+    @apply text-4xl md:text-5xl lg:text-6xl font-bold leading-tight tracking-tight;
+  }
+  
+  .kortex-subsection-title {
+    @apply text-2xl md:text-3xl lg:text-4xl font-bold leading-tight tracking-tight;
+  }
+  
+  .kortex-body {
+    @apply text-base md:text-lg text-gray-300 leading-relaxed;
+  }
+  
+  .kortex-subtitle {
+    @apply text-xl md:text-2xl text-gray-400 font-light leading-relaxed;
+  }
+  
+  .kortex-glow {
+    @apply shadow-2xl shadow-purple-500/20;
+  }
+  
+  .kortex-input {
+    @apply bg-[#1a1a1a] border border-[#2a2a2a] rounded-lg px-4 py-3 text-white placeholder-gray-400 focus:border-[#8b5cf6] focus:ring-1 focus:ring-[#8b5cf6] transition-all duration-200;
+  }
+  
+  .kortex-badge {
+    @apply bg-[#2a2a2a] text-gray-300 px-3 py-1 rounded-full text-sm font-medium border border-[#3a3a3a];
+  }
+  
+  .kortex-badge-primary {
+    @apply bg-gradient-to-r from-[#8b5cf6]/20 to-[#a855f7]/20 text-purple-300 px-3 py-1 rounded-full text-sm font-medium border border-purple-500/30;
+  }
+}
+
+@layer utilities {
+  .text-balance {
+    text-wrap: balance;
+  }
+  
+  .animate-float {
+    animation: float 6s ease-in-out infinite;
+  }
+  
+  .animate-pulse-slow {
+    animation: pulse 4s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+  }
+  
+  .animate-fadeIn {
+    animation: fadeIn 0.8s ease-out forwards;
+  }
+  
+  @keyframes float {
+    0%, 100% { transform: translateY(0px); }
+    50% { transform: translateY(-20px); }
+  }
+  
+  @keyframes fadeIn {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+  
+  .bg-grid-pattern {
+    background-image: 
+      linear-gradient(rgba(255, 255, 255, 0.02) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(255, 255, 255, 0.02) 1px, transparent 1px);
+    background-size: 50px 50px;
+  }
+  
+  .bg-noise {
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)' opacity='0.02'/%3E%3C/svg%3E");
+  }
+}

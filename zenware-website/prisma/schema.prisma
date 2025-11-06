@@ -1,0 +1,102 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id          String       @id @default(cuid())
+  email       String       @unique
+  name        String?
+  createdAt   DateTime     @default(now())
+  updatedAt   DateTime     @updatedAt
+  contacts    Contact[]
+  newsletters Newsletter[]
+
+  @@map("users")
+}
+
+model Contact {
+  id          String   @id @default(cuid())
+  name        String
+  email       String
+  company     String?
+  phone       String?
+  projectType String?
+  budgetRange String?
+  timeline    String?
+  message     String
+  createdAt   DateTime @default(now())
+  userId      String?
+  user        User?    @relation(fields: [userId], references: [id])
+
+  @@map("contacts")
+}
+
+model Newsletter {
+  id         String   @id @default(cuid())
+  email      String   @unique
+  name       String?
+  subscribed Boolean  @default(true)
+  createdAt  DateTime @default(now())
+  userId     String?
+  user       User?    @relation(fields: [userId], references: [id])
+
+  @@map("newsletters")
+}
+
+model Project {
+  id              String   @id @default(cuid())
+  name            String
+  slug            String   @unique
+  tagline         String?
+  description     String
+  longDescription String?
+  image           String?
+  status          String   @default("development")
+  category        String
+  tags            String[]
+  techStack       String[]
+  demoUrl         String?
+  githubUrl       String?
+  featured        Boolean  @default(false)
+  createdAt       DateTime @default(now())
+  updatedAt       DateTime @updatedAt
+
+  @@map("projects")
+}
+
+model BlogPost {
+  id          String    @id @default(cuid())
+  title       String
+  slug        String    @unique
+  excerpt     String?
+  content     String
+  image       String?
+  published   Boolean   @default(false)
+  category    String
+  tags        String[]
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
+  publishedAt DateTime?
+
+  @@map("blog_posts")
+}
+
+model Service {
+  id          String   @id @default(cuid())
+  name        String
+  slug        String   @unique
+  description String
+  features    String[]
+  category    String
+  price       String?
+  featured    Boolean  @default(false)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  @@map("services")
+}
