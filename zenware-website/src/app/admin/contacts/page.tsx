@@ -4,7 +4,7 @@ import { useState, useEffect } from 'react'
 import { useSession } from 'next-auth/react'
 import { useRouter } from 'next/navigation'
 import AdminLayout from '@/components/admin/AdminLayout'
-import { Trash2, Search, Mail, Phone, Building, Calendar, Filter, Download, Eye } from 'lucide-react'
+import { Trash2, Search, Mail, Phone, Building, Calendar, Download, Eye } from 'lucide-react'
 import ContactModal from '@/components/admin/ContactModal'
 
 interface Contact {
@@ -45,7 +45,7 @@ export default function AdminContacts() {
     try {
       setIsLoading(true)
       await new Promise(resolve => setTimeout(resolve, 1000))
-      
+
       const mockContacts: Contact[] = [
         {
           id: '1',
@@ -105,7 +105,7 @@ export default function AdminContacts() {
           createdAt: '2024-01-11T11:10:00Z'
         }
       ]
-      
+
       setContacts(mockContacts)
     } catch (error) {
       console.error('Failed to fetch contacts:', error)
@@ -116,7 +116,7 @@ export default function AdminContacts() {
 
   const handleDeleteContact = async (contactId: string) => {
     if (!confirm('Are you sure you want to delete this contact? This action cannot be undone.')) return
-    
+
     try {
       setContacts(prev => prev.filter(c => c.id !== contactId))
     } catch (error) {
@@ -157,9 +157,9 @@ export default function AdminContacts() {
 
   const filteredContacts = contacts.filter(contact => {
     const matchesSearch = contact.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
-                         contact.email.toLowerCase().includes(searchTerm.toLowerCase()) ||
-                         (contact.company && contact.company.toLowerCase().includes(searchTerm.toLowerCase())) ||
-                         contact.message.toLowerCase().includes(searchTerm.toLowerCase())
+      contact.email.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      (contact.company && contact.company.toLowerCase().includes(searchTerm.toLowerCase())) ||
+      contact.message.toLowerCase().includes(searchTerm.toLowerCase())
     const matchesProjectType = filterProjectType === 'all' || contact.projectType === filterProjectType
     return matchesSearch && matchesProjectType
   })
@@ -241,7 +241,7 @@ export default function AdminContacts() {
               <div className="ml-4">
                 <p className="text-sm font-medium text-gray-400">This Week</p>
                 <p className="text-2xl font-bold text-white">
-                  {contacts.filter(c => 
+                  {contacts.filter(c =>
                     new Date(c.createdAt) > new Date(Date.now() - 7 * 24 * 60 * 60 * 1000)
                   ).length}
                 </p>
@@ -322,7 +322,7 @@ export default function AdminContacts() {
                         </span>
                       )}
                     </div>
-                    
+
                     <div className="space-y-1 mb-3 text-sm text-gray-300">
                       <div className="flex items-center gap-2">
                         <Mail className="h-4 w-4 text-gray-400" />
@@ -351,14 +351,14 @@ export default function AdminContacts() {
                         </div>
                       )}
                     </div>
-                    
+
                     <p className="text-gray-300 text-sm line-clamp-2 mb-3">{contact.message}</p>
-                    
+
                     <div className="text-xs text-gray-500">
                       Submitted {new Date(contact.createdAt).toLocaleDateString()} at {new Date(contact.createdAt).toLocaleTimeString()}
                     </div>
                   </div>
-                  
+
                   <div className="ml-4 flex items-center gap-2 opacity-0 group-hover:opacity-100 transition-opacity">
                     <button
                       onClick={() => handleViewContact(contact)}

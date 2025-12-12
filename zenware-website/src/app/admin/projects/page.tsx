@@ -4,7 +4,7 @@ import { useState, useEffect } from 'react'
 import { useSession } from 'next-auth/react'
 import { useRouter } from 'next/navigation'
 import AdminLayout from '@/components/admin/AdminLayout'
-import { Plus, Edit, Trash2, Search, Filter } from 'lucide-react'
+import { Plus, Edit, Trash2, Search } from 'lucide-react'
 import ProjectModal from '@/components/admin/ProjectModal'
 
 interface Project {
@@ -75,16 +75,16 @@ export default function AdminProjects() {
 
   const handleDeleteProject = async (projectId: string) => {
     if (!confirm('Are you sure you want to delete this project?')) return
-    
+
     try {
       const response = await fetch(`/api/admin/projects/${projectId}`, {
         method: 'DELETE'
       })
-      
+
       if (!response.ok) {
         throw new Error('Failed to delete project')
       }
-      
+
       setProjects(prev => prev.filter(p => p.id !== projectId))
     } catch (error) {
       console.error('Failed to delete project:', error)
@@ -95,7 +95,7 @@ export default function AdminProjects() {
   const handleSaveProject = async (projectData: Partial<Project>) => {
     try {
       let response: Response
-      
+
       if (editingProject) {
         // Update existing project
         response = await fetch(`/api/admin/projects/${editingProject.id}`, {
@@ -128,7 +128,7 @@ export default function AdminProjects() {
       } else {
         setProjects(prev => [savedProject, ...prev])
       }
-      
+
       setIsModalOpen(false)
     } catch (error) {
       console.error('Failed to save project:', error)
@@ -139,7 +139,7 @@ export default function AdminProjects() {
 
   const filteredProjects = projects.filter(project => {
     const matchesSearch = project.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
-                         project.description.toLowerCase().includes(searchTerm.toLowerCase())
+      project.description.toLowerCase().includes(searchTerm.toLowerCase())
     const matchesCategory = filterCategory === 'all' || project.category === filterCategory
     return matchesSearch && matchesCategory
   })
@@ -236,13 +236,12 @@ export default function AdminProjects() {
                       <p className="text-sm text-gray-400 mb-2">{project.tagline}</p>
                     )}
                     <div className="flex items-center gap-2 mb-2">
-                      <span className={`px-2 py-1 rounded-full text-xs font-medium ${
-                        project.status === 'live' 
-                          ? 'bg-green-500/20 text-green-400' 
+                      <span className={`px-2 py-1 rounded-full text-xs font-medium ${project.status === 'live'
+                          ? 'bg-green-500/20 text-green-400'
                           : project.status === 'beta'
-                          ? 'bg-yellow-500/20 text-yellow-400'
-                          : 'bg-blue-500/20 text-blue-400'
-                      }`}>
+                            ? 'bg-yellow-500/20 text-yellow-400'
+                            : 'bg-blue-500/20 text-blue-400'
+                        }`}>
                         {project.status}
                       </span>
                       <span className="kortex-badge-primary">
@@ -256,9 +255,9 @@ export default function AdminProjects() {
                     </div>
                   </div>
                 </div>
-                
+
                 <p className="text-gray-300 text-sm mb-4 line-clamp-3">{project.description}</p>
-                
+
                 <div className="flex flex-wrap gap-1 mb-4">
                   {project.tags.slice(0, 3).map((tag) => (
                     <span key={tag} className="kortex-badge text-xs">
@@ -271,7 +270,7 @@ export default function AdminProjects() {
                     </span>
                   )}
                 </div>
-                
+
                 <div className="flex items-center justify-between">
                   <div className="text-xs text-gray-500">
                     Updated {new Date(project.updatedAt).toLocaleDateString()}

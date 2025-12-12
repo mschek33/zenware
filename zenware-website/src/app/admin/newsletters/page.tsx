@@ -4,7 +4,7 @@ import { useState, useEffect } from 'react'
 import { useSession } from 'next-auth/react'
 import { useRouter } from 'next/navigation'
 import AdminLayout from '@/components/admin/AdminLayout'
-import { Trash2, Search, Mail, Download, Calendar, UserCheck, UserX, Eye, Filter } from 'lucide-react'
+import { Trash2, Search, Mail, Download, Calendar, UserCheck, UserX } from 'lucide-react'
 
 interface Newsletter {
   id: string
@@ -38,7 +38,7 @@ export default function AdminNewsletters() {
     try {
       setIsLoading(true)
       await new Promise(resolve => setTimeout(resolve, 1000))
-      
+
       const mockNewsletters: Newsletter[] = [
         {
           id: '1',
@@ -96,7 +96,7 @@ export default function AdminNewsletters() {
           createdAt: '2024-01-08T12:20:00Z'
         }
       ]
-      
+
       setNewsletters(mockNewsletters)
     } catch (error) {
       console.error('Failed to fetch newsletters:', error)
@@ -107,7 +107,7 @@ export default function AdminNewsletters() {
 
   const handleDeleteSubscriber = async (subscriberId: string) => {
     if (!confirm('Are you sure you want to delete this subscriber? This action cannot be undone.')) return
-    
+
     try {
       setNewsletters(prev => prev.filter(s => s.id !== subscriberId))
     } catch (error) {
@@ -143,7 +143,7 @@ export default function AdminNewsletters() {
     const url = window.URL.createObjectURL(blob)
     const a = document.createElement('a')
     a.href = url
-    const filename = activeOnly 
+    const filename = activeOnly
       ? `zenware-active-subscribers-${new Date().toISOString().split('T')[0]}.csv`
       : `zenware-all-subscribers-${new Date().toISOString().split('T')[0]}.csv`
     a.download = filename
@@ -155,10 +155,10 @@ export default function AdminNewsletters() {
 
   const filteredNewsletters = newsletters.filter(newsletter => {
     const matchesSearch = newsletter.email.toLowerCase().includes(searchTerm.toLowerCase()) ||
-                         (newsletter.name && newsletter.name.toLowerCase().includes(searchTerm.toLowerCase()))
-    const matchesStatus = filterStatus === 'all' || 
-                         (filterStatus === 'subscribed' && newsletter.subscribed) ||
-                         (filterStatus === 'unsubscribed' && !newsletter.subscribed)
+      (newsletter.name && newsletter.name.toLowerCase().includes(searchTerm.toLowerCase()))
+    const matchesStatus = filterStatus === 'all' ||
+      (filterStatus === 'subscribed' && newsletter.subscribed) ||
+      (filterStatus === 'unsubscribed' && !newsletter.subscribed)
     return matchesSearch && matchesStatus
   })
 
@@ -248,7 +248,7 @@ export default function AdminNewsletters() {
               <div className="ml-4">
                 <p className="text-sm font-medium text-gray-400">This Week</p>
                 <p className="text-2xl font-bold text-white">
-                  {newsletters.filter(s => 
+                  {newsletters.filter(s =>
                     new Date(s.createdAt) > new Date(Date.now() - 7 * 24 * 60 * 60 * 1000)
                   ).length}
                 </p>
@@ -320,27 +320,25 @@ export default function AdminNewsletters() {
                       <p className="text-xs text-gray-300 truncate">{subscriber.email}</p>
                     </div>
                   </div>
-                  <span className={`px-2 py-1 rounded-full text-xs font-medium ${
-                    subscriber.subscribed 
-                      ? 'bg-green-500/20 text-green-400' 
+                  <span className={`px-2 py-1 rounded-full text-xs font-medium ${subscriber.subscribed
+                      ? 'bg-green-500/20 text-green-400'
                       : 'bg-red-500/20 text-red-400'
-                  }`}>
+                    }`}>
                     {subscriber.subscribed ? 'Active' : 'Unsubscribed'}
                   </span>
                 </div>
-                
+
                 <div className="text-xs text-gray-500 mb-4">
                   Joined {new Date(subscriber.createdAt).toLocaleDateString()}
                 </div>
-                
+
                 <div className="flex items-center justify-between opacity-0 group-hover:opacity-100 transition-opacity">
                   <button
                     onClick={() => handleToggleSubscription(subscriber)}
-                    className={`px-3 py-1 rounded-lg text-xs font-medium transition-colors ${
-                      subscriber.subscribed
+                    className={`px-3 py-1 rounded-lg text-xs font-medium transition-colors ${subscriber.subscribed
                         ? 'bg-red-500/20 text-red-400 hover:bg-red-500/30'
                         : 'bg-green-500/20 text-green-400 hover:bg-green-500/30'
-                    }`}
+                      }`}
                   >
                     {subscriber.subscribed ? 'Unsubscribe' : 'Resubscribe'}
                   </button>
