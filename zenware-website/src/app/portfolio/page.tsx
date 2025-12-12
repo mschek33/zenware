@@ -2,7 +2,7 @@ import Header from '@/components/layout/header';
 import Footer from '@/components/layout/footer';
 import Link from 'next/link';
 import { ArrowRight, ExternalLink, Github, Code, Globe, Smartphone, Database } from 'lucide-react';
-import { PrismaClient } from '@prisma/client';
+import { projects } from '@/data/projects';
 import type { Metadata } from 'next';
 import { FadeIn, StaggerContainer, ScaleIn } from '@/components/animations/fade-in';
 
@@ -12,48 +12,12 @@ export const metadata: Metadata = {
   keywords: 'portfolio, conscious technology, software development, enterprise solutions, superyacht systems, regenerative technology',
 };
 
-// Project interface to match database schema
-interface Project {
-  id: string
-  name: string
-  slug: string
-  tagline?: string | null
-  description: string
-  longDescription?: string | null
-  image?: string | null
-  status: string
-  category: string
-  tags: string[]
-  techStack: string[]
-  demoUrl?: string | null
-  githubUrl?: string | null
-  featured: boolean
-  createdAt: Date
-  updatedAt: Date
-}
 
-// Server-side data fetching using Prisma directly
-const prisma = new PrismaClient()
 
-async function getProjects(): Promise<Project[]> {
-  try {
-    const projects = await prisma.project.findMany({
-      orderBy: [
-        { featured: 'desc' }, // Featured projects first
-        { createdAt: 'desc' }
-      ]
-    })
 
-    return projects
-  } catch (error) {
-    console.error('Error fetching projects:', error)
-    return []
-  }
-}
+export default function Portfolio() {
+  // Use static data
 
-export default async function Portfolio() {
-  // Fetch projects from database
-  const projects = await getProjects()
 
   const getCategoryColor = (category: string) => {
     switch (category) {
