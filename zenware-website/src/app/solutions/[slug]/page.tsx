@@ -2,7 +2,7 @@ import { notFound } from 'next/navigation';
 import Header from '@/components/layout/header';
 import Footer from '@/components/layout/footer';
 import Link from 'next/link';
-import { ArrowRight, ExternalLink, Github, Calendar, Users, Code, Zap, CheckCircle } from 'lucide-react';
+import { ArrowRight, ExternalLink, Github, Calendar, Users, Code, Zap } from 'lucide-react';
 import type { Metadata } from 'next';
 import { projects } from '@/data/projects';
 import { FadeIn, StaggerContainer, ScaleIn } from '@/components/animations/fade-in';
@@ -105,9 +105,9 @@ export default async function ProjectPage({ params }: ProjectPageProps) {
           {/* Ambient Background Effects */}
           <div className="absolute inset-0 overflow-hidden pointer-events-none">
             <div className={`absolute top-1/4 left-1/4 w-[500px] h-[500px] rounded-full blur-3xl animate-float opacity-40 dark:opacity-10 ${project.category === 'regenerative' ? 'bg-green-100 dark:bg-green-900' :
-                project.category === 'consciousness' ? 'bg-blue-100 dark:bg-blue-900' :
-                  project.category === 'sovereign' ? 'bg-purple-100 dark:bg-purple-900' :
-                    'bg-orange-100 dark:bg-orange-900'
+              project.category === 'consciousness' ? 'bg-blue-100 dark:bg-blue-900' :
+                project.category === 'sovereign' ? 'bg-purple-100 dark:bg-purple-900' :
+                  'bg-orange-100 dark:bg-orange-900'
               }`} />
           </div>
 
@@ -157,8 +157,8 @@ export default async function ProjectPage({ params }: ProjectPageProps) {
               )}
               <Link href="/contact">
                 <button className={`px-8 py-4 rounded-full font-medium transition-all duration-300 inline-flex items-center justify-center ${!project.demoUrl && !project.githubUrl
-                    ? 'bg-zinc-900 text-white hover:bg-black hover:scale-105 shadow-sm dark:bg-white dark:text-black dark:hover:bg-zinc-200'
-                    : 'bg-white border border-zinc-200 text-zinc-900 hover:bg-zinc-50 hover:border-zinc-300 dark:bg-transparent dark:border-white/20 dark:text-white dark:hover:bg-white/5'
+                  ? 'bg-zinc-900 text-white hover:bg-black hover:scale-105 shadow-sm dark:bg-white dark:text-black dark:hover:bg-zinc-200'
+                  : 'bg-white border border-zinc-200 text-zinc-900 hover:bg-zinc-50 hover:border-zinc-300 dark:bg-transparent dark:border-white/20 dark:text-white dark:hover:bg-white/5'
                   }`}>
                   Get Started
                   <ArrowRight className="w-4 h-4 ml-2" />

@@ -182,7 +182,7 @@ export default async function Portfolio() {
 
             {projects.length > 0 ? (
               <StaggerContainer className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-                {projects.map((project, index) => (
+                {projects.map((project) => (
                   <ScaleIn key={project.id} className="group bg-white rounded-3xl border border-black/5 overflow-hidden shadow-sm hover:shadow-lg transition-all duration-300 dark:bg-zinc-900 dark:border-white/5 dark:hover:bg-white/5">
                     <div className="p-8">
                       <div className="flex items-center justify-between mb-6">

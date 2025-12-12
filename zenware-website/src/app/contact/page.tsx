@@ -7,8 +7,8 @@ import { Input } from '@/components/ui/input';
 import { Textarea } from '@/components/ui/textarea';
 import { Label } from '@/components/ui/label';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
-import { Mail, Phone, MapPin, Clock, MessageCircle, Calendar, ArrowRight, CheckCircle } from 'lucide-react';
-import { FadeIn, StaggerContainer, ScaleIn } from '@/components/animations/fade-in';
+import { Mail, Phone, MapPin, Clock, MessageCircle, Calendar, CheckCircle } from 'lucide-react';
+import { FadeIn, ScaleIn } from '@/components/animations/fade-in';
 
 export default function Contact() {
   const [formData, setFormData] = useState({
