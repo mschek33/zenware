@@ -4,7 +4,7 @@ import { useState, useEffect } from 'react'
 import { useSession } from 'next-auth/react'
 import { useRouter } from 'next/navigation'
 import AdminLayout from '@/components/admin/AdminLayout'
-import { Plus, Edit, Trash2, Search, Eye, Calendar, User } from 'lucide-react'
+import { Plus, Edit, Trash2, Search, Eye, Calendar } from 'lucide-react'
 import BlogPostModal from '@/components/admin/BlogPostModal'
 
 interface BlogPost {
@@ -47,7 +47,7 @@ export default function AdminBlogPosts() {
     try {
       setIsLoading(true)
       await new Promise(resolve => setTimeout(resolve, 1000))
-      
+
       const mockBlogPosts: BlogPost[] = [
         {
           id: '1',
@@ -88,7 +88,7 @@ export default function AdminBlogPosts() {
           publishedAt: '2024-01-03T00:00:00Z'
         }
       ]
-      
+
       setBlogPosts(mockBlogPosts)
     } catch (error) {
       console.error('Failed to fetch blog posts:', error)
@@ -109,7 +109,7 @@ export default function AdminBlogPosts() {
 
   const handleDeletePost = async (postId: string) => {
     if (!confirm('Are you sure you want to delete this blog post?')) return
-    
+
     try {
       setBlogPosts(prev => prev.filter(p => p.id !== postId))
     } catch (error) {
@@ -154,11 +154,11 @@ export default function AdminBlogPosts() {
 
   const filteredPosts = blogPosts.filter(post => {
     const matchesSearch = post.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
-                         post.content.toLowerCase().includes(searchTerm.toLowerCase()) ||
-                         (post.excerpt && post.excerpt.toLowerCase().includes(searchTerm.toLowerCase()))
-    const matchesStatus = filterStatus === 'all' || 
-                         (filterStatus === 'published' && post.published) ||
-                         (filterStatus === 'draft' && !post.published)
+      post.content.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      (post.excerpt && post.excerpt.toLowerCase().includes(searchTerm.toLowerCase()))
+    const matchesStatus = filterStatus === 'all' ||
+      (filterStatus === 'published' && post.published) ||
+      (filterStatus === 'draft' && !post.published)
     return matchesSearch && matchesStatus
   })
 
@@ -293,22 +293,21 @@ export default function AdminBlogPosts() {
                   <div className="flex-1">
                     <div className="flex items-center gap-3 mb-2">
                       <h3 className="text-xl font-semibold text-white">{post.title}</h3>
-                      <span className={`px-2 py-1 rounded-full text-xs font-medium ${
-                        post.published 
-                          ? 'bg-green-500/20 text-green-400' 
+                      <span className={`px-2 py-1 rounded-full text-xs font-medium ${post.published
+                          ? 'bg-green-500/20 text-green-400'
                           : 'bg-yellow-500/20 text-yellow-400'
-                      }`}>
+                        }`}>
                         {post.published ? 'Published' : 'Draft'}
                       </span>
                       <span className="kortex-badge-primary text-xs">
                         {post.category}
                       </span>
                     </div>
-                    
+
                     {post.excerpt && (
                       <p className="text-gray-300 text-sm mb-3 line-clamp-2">{post.excerpt}</p>
                     )}
-                    
+
                     <div className="flex flex-wrap gap-1 mb-3">
                       {post.tags.slice(0, 4).map((tag) => (
                         <span key={tag} className="kortex-badge text-xs">
@@ -321,7 +320,7 @@ export default function AdminBlogPosts() {
                         </span>
                       )}
                     </div>
-                    
+
                     <div className="flex items-center text-xs text-gray-500 gap-4">
                       <div className="flex items-center gap-1">
                         <Calendar className="h-3 w-3" />
@@ -335,15 +334,14 @@ export default function AdminBlogPosts() {
                       )}
                     </div>
                   </div>
-                  
+
                   <div className="ml-4 flex items-center gap-2 opacity-0 group-hover:opacity-100 transition-opacity">
                     <button
                       onClick={() => handleTogglePublish(post)}
-                      className={`px-3 py-1 rounded-lg text-xs font-medium transition-colors ${
-                        post.published
+                      className={`px-3 py-1 rounded-lg text-xs font-medium transition-colors ${post.published
                           ? 'bg-yellow-500/20 text-yellow-400 hover:bg-yellow-500/30'
                           : 'bg-green-500/20 text-green-400 hover:bg-green-500/30'
-                      }`}
+                        }`}
                     >
                       {post.published ? 'Unpublish' : 'Publish'}
                     </button>

@@ -1,7 +1,7 @@
 import Header from '@/components/layout/header';
 import Footer from '@/components/layout/footer';
 import Link from 'next/link';
-import { ArrowRight, Heart, Brain, Zap, Clock, Users, Globe, Award, Shield, CheckCircle } from 'lucide-react';
+import { ArrowRight, Heart, Brain, Zap } from 'lucide-react';
 import { FadeIn, StaggerContainer, ScaleIn } from '@/components/animations/fade-in';
 
 export default function About() {
@@ -165,7 +165,7 @@ export default function About() {
             </FadeIn>
             <FadeIn delay={0.2}>
               <p className="text-xl text-zinc-600 mb-12 max-w-2xl mx-auto font-light leading-relaxed dark:text-zinc-400">
-                Whether you're looking to transform your business or ready to contribute to the new paradigm, we're ready to listen.
+                Whether you&apos;re looking to transform your business or ready to contribute to the new paradigm, we&apos;re ready to listen.
               </p>
             </FadeIn>
             <FadeIn delay={0.4} className="flex flex-col sm:flex-row gap-6 justify-center">
