@@ -1,7 +1,7 @@
 'use client';
 
 import { Brain, Heart, Zap } from 'lucide-react';
-import { StaggerContainer, FadeIn, ScaleIn } from '@/components/animations/fade-in';
+import { StaggerContainer, ScaleIn } from '@/components/animations/fade-in';
 
 export default function ValuePropositions() {
   const values = [

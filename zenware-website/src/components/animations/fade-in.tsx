@@ -1,6 +1,6 @@
 'use client';
 
-import { motion, useInView, UseInViewOptions, HTMLMotionProps } from 'framer-motion';
+import { motion, useInView, HTMLMotionProps } from 'framer-motion';
 import { useRef } from 'react';
 
 interface FadeInProps extends HTMLMotionProps<'div'> {

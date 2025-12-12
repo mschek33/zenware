@@ -216,7 +216,7 @@ export default function Solutions() {
             </FadeIn>
             <FadeIn delay={0.2}>
               <p className="text-xl text-zinc-600 mb-12 max-w-2xl mx-auto font-light leading-relaxed dark:text-zinc-400">
-                Let's discuss how we can bring your vision to life with our comprehensive technology solutions.
+                Let&apos;s discuss how we can bring your vision to life with our comprehensive technology solutions.
               </p>
             </FadeIn>
             <FadeIn delay={0.4} className="flex flex-col sm:flex-row gap-6 justify-center">
