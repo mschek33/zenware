@@ -4,6 +4,7 @@ import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import Link from 'next/link';
 import { ArrowRight, Cog, Brain, TrendingUp, CheckCircle, Clock, Users } from 'lucide-react';
+import { FadeIn, StaggerContainer, ScaleIn } from '@/components/animations/fade-in';
 
 export default function AIAutomation() {
   const services = [
@@ -18,7 +19,7 @@ export default function AIAutomation() {
         'Error handling & recovery',
         'Performance monitoring',
       ],
-      color: 'from-blue-500 to-cyan-500',
+      color: 'text-blue-600 bg-blue-100 dark:text-blue-300 dark:bg-blue-900/30',
     },
     {
       icon: Brain,
@@ -31,7 +32,7 @@ export default function AIAutomation() {
         'Client customization',
         'Revenue optimization',
       ],
-      color: 'from-purple-500 to-indigo-500',
+      color: 'text-purple-600 bg-purple-100 dark:text-purple-300 dark:bg-purple-900/30',
     },
     {
       icon: TrendingUp,
@@ -44,7 +45,7 @@ export default function AIAutomation() {
         'Decision support',
         'ROI optimization',
       ],
-      color: 'from-green-500 to-emerald-500',
+      color: 'text-green-600 bg-green-100 dark:text-green-300 dark:bg-green-900/30',
     },
   ];
 
@@ -103,189 +104,205 @@ export default function AIAutomation() {
   ];
 
   return (
-    <div className="min-h-screen">
+    <div className="min-h-screen bg-background">
       <Header />
-      <main className="pt-16">
+      <main className="pt-24 md:pt-32">
         {/* Hero Section */}
-        <section className="kortex-hero-short bg-noise">
-          <div className="container mx-auto max-w-4xl text-center">
-            <h1 className="kortex-hero-title text-white mb-6">
-              Intelligent Automation for{' '}
-              <span className="kortex-text-gradient">
-                Conscious Business
-              </span>
-            </h1>
-            <p className="kortex-subtitle mb-8 max-w-3xl mx-auto">
-              Transform your operations with AI that aligns with your values and serves your mission
-            </p>
-            <div className="flex flex-col sm:flex-row gap-4 justify-center">
-              <button className="kortex-button-primary text-lg px-8 py-4">
-                <Link href="/contact" className="flex items-center justify-center">
+        <section className="relative pb-24 overflow-hidden">
+          {/* Ambient Background Effects */}
+          <div className="absolute inset-0 overflow-hidden pointer-events-none">
+            <div className="absolute top-1/4 left-1/4 w-[500px] h-[500px] bg-blue-100/40 rounded-full blur-3xl animate-float dark:bg-blue-900/10" />
+            <div className="absolute top-1/3 right-1/4 w-[600px] h-[600px] bg-purple-100/40 rounded-full blur-3xl animate-float-delayed dark:bg-purple-900/10" />
+          </div>
+
+          <div className="container relative z-10 mx-auto max-w-4xl px-4 text-center">
+            <FadeIn>
+              <h1 className="text-5xl md:text-7xl font-light tracking-tight text-zinc-900 mb-8 leading-tight dark:text-white">
+                Intelligent Automation for{' '}
+                <span className="font-normal text-transparent bg-clip-text bg-gradient-to-r from-zinc-900 via-zinc-700 to-zinc-500 dark:from-white dark:via-white/80 dark:to-white/50">
+                  Conscious Business
+                </span>
+              </h1>
+            </FadeIn>
+            <FadeIn delay={0.2}>
+              <p className="text-xl md:text-2xl text-zinc-600 font-light max-w-3xl mx-auto mb-12 leading-relaxed text-balance dark:text-zinc-400">
+                Transform your operations with AI that aligns with your values and serves your mission
+              </p>
+            </FadeIn>
+            <FadeIn delay={0.4} className="flex flex-col sm:flex-row gap-6 justify-center">
+              <Link href="/contact">
+                <button className="w-full sm:w-auto px-8 py-4 bg-zinc-900 text-white rounded-full font-medium text-lg transition-all duration-300 hover:bg-black hover:scale-105 shadow-sm inline-flex items-center justify-center dark:bg-white dark:text-black dark:hover:bg-zinc-200">
                   Get Started Today
                   <ArrowRight className="ml-2 w-4 h-4" />
-                </Link>
-              </button>
-              <button className="kortex-button text-lg px-8 py-4">
-                <Link href="#services" className="flex items-center justify-center">
+                </button>
+              </Link>
+              <Link href="#services">
+                <button className="w-full sm:w-auto px-8 py-4 bg-white border border-zinc-200 text-zinc-900 rounded-full font-medium text-lg transition-all duration-300 hover:bg-zinc-50 hover:border-zinc-300 inline-flex items-center justify-center dark:bg-transparent dark:border-white/20 dark:text-white dark:hover:bg-white/5">
                   Explore Services
                   <ArrowRight className="ml-2 w-4 h-4" />
-                </Link>
-              </button>
-            </div>
+                </button>
+              </Link>
+            </FadeIn>
           </div>
         </section>
 
         {/* Services Section */}
-        <section id="services" className="kortex-section bg-grid-pattern">
-          <div className="container mx-auto max-w-6xl">
-            <div className="text-center mb-16">
-              <h2 className="kortex-section-title text-white mb-4">
+        <section id="services" className="py-24 bg-zinc-50 dark:bg-black/20">
+          <div className="container mx-auto max-w-6xl px-4">
+            <FadeIn className="text-center mb-16">
+              <h2 className="text-3xl md:text-5xl font-light tracking-tight text-zinc-900 mb-6 dark:text-white">
                 AI Automation Services
               </h2>
-              <p className="kortex-subtitle max-w-2xl mx-auto">
+              <p className="text-lg text-zinc-600 max-w-2xl mx-auto font-light dark:text-zinc-400">
                 Comprehensive solutions to automate and optimize your business processes
               </p>
-            </div>
+            </FadeIn>
 
-            <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
+            <StaggerContainer className="grid grid-cols-1 lg:grid-cols-3 gap-8">
               {services.map((service, index) => (
-                <div key={index} className="kortex-feature-card p-8 group">
-                  <div className={`w-16 h-16 bg-gradient-to-r ${service.color} rounded-xl flex items-center justify-center mb-6 kortex-glow`}>
-                    <service.icon className="w-8 h-8 text-white" />
+                <ScaleIn key={index} className="p-8 rounded-3xl bg-white border border-black/5 hover:border-black/10 transition-all duration-300 hover:shadow-lg dark:bg-zinc-900 dark:border-white/5 dark:hover:border-white/10 dark:hover:bg-white/5">
+                  <div className={`w-16 h-16 ${service.color} rounded-2xl flex items-center justify-center mb-6`}>
+                    <service.icon className="w-8 h-8" />
                   </div>
-                  <h3 className="text-xl font-semibold text-white mb-4">
+                  <h3 className="text-xl font-medium text-zinc-900 mb-4 dark:text-white">
                     {service.title}
                   </h3>
-                  <p className="text-gray-300 mb-6">
+                  <p className="text-zinc-600 mb-8 leading-relaxed font-light dark:text-zinc-400">
                     {service.description}
                   </p>
-                  <ul className="space-y-2">
+                  <ul className="space-y-3">
                     {service.features.map((feature, idx) => (
-                      <li key={idx} className="flex items-center text-sm text-gray-300">
-                        <CheckCircle className="w-4 h-4 text-purple-500 mr-2 flex-shrink-0" />
+                      <li key={idx} className="flex items-center text-sm text-zinc-500 font-light dark:text-zinc-400">
+                        <CheckCircle className="w-4 h-4 text-zinc-900 mr-3 flex-shrink-0 dark:text-white" />
                         {feature}
                       </li>
                     ))}
                   </ul>
-                </div>
+                </ScaleIn>
               ))}
-            </div>
+            </StaggerContainer>
           </div>
         </section>
 
         {/* Process Section */}
-        <section className="kortex-section-alt">
-          <div className="container mx-auto max-w-6xl">
-            <div className="text-center mb-16">
-              <h2 className="kortex-section-title text-white mb-4">
+        <section className="py-24">
+          <div className="container mx-auto max-w-6xl px-4">
+            <FadeIn className="text-center mb-16">
+              <h2 className="text-3xl md:text-4xl font-light tracking-tight text-zinc-900 mb-6 dark:text-white">
                 Our Implementation Process
               </h2>
-              <p className="kortex-subtitle max-w-2xl mx-auto">
+              <p className="text-lg text-zinc-600 max-w-2xl mx-auto font-light dark:text-zinc-400">
                 A proven methodology that ensures successful AI integration
               </p>
-            </div>
+            </FadeIn>
 
-            <div className="grid grid-cols-1 md:grid-cols-5 gap-8">
+            <StaggerContainer className="grid grid-cols-1 md:grid-cols-5 gap-8">
               {process.map((step, index) => (
-                <div key={index} className="text-center">
-                  <div className="relative mb-6">
-                    <div className="w-16 h-16 bg-gradient-to-r from-purple-500 to-pink-500 rounded-full flex items-center justify-center mx-auto mb-4 kortex-glow">
-                      <step.icon className="w-8 h-8 text-white" />
+                <FadeIn key={index} className="text-center group">
+                  <div className="relative mb-6 inline-block">
+                    <div className="w-20 h-20 bg-zinc-50 rounded-full flex items-center justify-center mx-auto border border-black/5 group-hover:scale-110 transition-transform duration-300 dark:bg-white/5 dark:border-white/10">
+                      <step.icon className="w-8 h-8 text-zinc-900 dark:text-white" strokeWidth={1.5} />
                     </div>
-                    <div className="absolute -top-2 -right-2 w-8 h-8 bg-[#111111] rounded-full border-2 border-purple-500 flex items-center justify-center">
-                      <span className="text-xs font-bold text-purple-300">{step.number}</span>
+                    <div className="absolute -top-2 -right-2 w-8 h-8 bg-zinc-900 rounded-full border-4 border-white flex items-center justify-center dark:bg-white dark:border-black">
+                      <span className="text-xs font-bold text-white dark:text-black">{step.number}</span>
                     </div>
                   </div>
-                  <h3 className="text-lg font-semibold text-white mb-2">
+                  <h3 className="text-lg font-medium text-zinc-900 mb-2 dark:text-white">
                     {step.title}
                   </h3>
-                  <p className="text-gray-300 text-sm">
+                  <p className="text-zinc-500 text-sm font-light dark:text-zinc-400">
                     {step.description}
                   </p>
-                </div>
+                </FadeIn>
               ))}
-            </div>
+            </StaggerContainer>
           </div>
         </section>
 
         {/* Case Studies Section */}
-        <section className="kortex-section bg-grid-pattern">
-          <div className="container mx-auto max-w-6xl">
-            <div className="text-center mb-16">
-              <h2 className="kortex-section-title text-white mb-4">
+        <section className="py-24 bg-zinc-50 dark:bg-black/20">
+          <div className="container mx-auto max-w-6xl px-4">
+            <FadeIn className="text-center mb-16">
+              <h2 className="text-3xl md:text-5xl font-light tracking-tight text-zinc-900 mb-6 dark:text-white">
                 Success Stories
               </h2>
-              <p className="kortex-subtitle max-w-2xl mx-auto">
+              <p className="text-lg text-zinc-600 max-w-2xl mx-auto font-light dark:text-zinc-400">
                 Real results from our AI automation implementations
               </p>
-            </div>
+            </FadeIn>
 
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+            <StaggerContainer className="grid grid-cols-1 md:grid-cols-3 gap-8">
               {caseStudies.map((study, index) => (
-                <div key={index} className="kortex-feature-card p-8">
-                  <div className="flex items-center justify-between mb-4">
-                    <span className="kortex-badge-primary">{study.industry}</span>
-                    <Clock className="w-5 h-5 text-gray-400" />
+                <ScaleIn key={index} className="bg-white p-8 rounded-3xl border border-black/5 shadow-sm hover:shadow-md transition-all duration-300 dark:bg-zinc-900 dark:border-white/5 dark:hover:bg-white/5">
+                  <div className="flex items-center justify-between mb-6">
+                    <span className="px-3 py-1 bg-zinc-100 text-zinc-600 text-xs font-medium rounded-full dark:bg-white/10 dark:text-zinc-300">{study.industry}</span>
+                    <Clock className="w-5 h-5 text-zinc-400" />
                   </div>
-                  <h3 className="text-xl font-semibold text-white mb-4">
+                  <h3 className="text-xl font-medium text-zinc-900 mb-3 dark:text-white">
                     {study.title}
                   </h3>
-                  <p className="text-gray-300 mb-6">
+                  <p className="text-zinc-600 mb-8 leading-relaxed font-light dark:text-zinc-400">
                     {study.description}
                   </p>
-                  <div className="space-y-2">
-                    <h4 className="font-semibold text-white text-sm">Results:</h4>
+                  <div className="space-y-3 pt-6 border-t border-zinc-100 dark:border-zinc-800">
+                    <h4 className="font-medium text-zinc-900 text-sm dark:text-white">Results:</h4>
                     {study.results.map((result, idx) => (
                       <div key={idx} className="flex items-start">
-                        <CheckCircle className="w-4 h-4 text-purple-500 mr-2 mt-0.5 flex-shrink-0" />
-                        <span className="text-sm text-gray-300">{result}</span>
+                        <CheckCircle className="w-4 h-4 text-zinc-900 mr-2 mt-0.5 flex-shrink-0 dark:text-white" />
+                        <span className="text-sm text-zinc-600 font-light dark:text-zinc-400">{result}</span>
                       </div>
                     ))}
                   </div>
-                </div>
+                </ScaleIn>
               ))}
-            </div>
+            </StaggerContainer>
           </div>
         </section>
 
         {/* CTA Section */}
-        <section className="kortex-section-alt bg-gradient-to-br from-purple-600/20 via-pink-600/20 to-purple-600/20">
-          <div className="container mx-auto max-w-4xl text-center">
-            <h2 className="kortex-section-title text-white mb-6">
-              Ready to Automate{' '}
-              <span className="kortex-text-gradient">Your Business?</span>
-            </h2>
-            <p className="kortex-subtitle mb-8 max-w-2xl mx-auto">
-              Let&apos;s discuss how AI automation can transform your operations while staying true to your values
-            </p>
-            <div className="flex flex-col sm:flex-row gap-4 justify-center mb-8">
-              <button className="kortex-button-primary text-lg px-8 py-4">
-                <Link href="/contact" className="flex items-center justify-center">
-                  Schedule Consultation
-                  <ArrowRight className="ml-2 w-4 h-4" />
+        <section className="py-24">
+          <div className="container mx-auto max-w-4xl px-4 text-center">
+            <FadeIn>
+              <h2 className="text-4xl md:text-5xl font-light tracking-tight text-zinc-900 mb-6 dark:text-white">
+                Ready to Automate{' '}
+                <span className="font-normal text-transparent bg-clip-text bg-gradient-to-r from-zinc-900 via-zinc-700 to-zinc-500 dark:from-white dark:via-white/80 dark:to-white/50">Your Business?</span>
+              </h2>
+            </FadeIn>
+            <FadeIn delay={0.2}>
+              <p className="text-xl text-zinc-600 mb-12 max-w-2xl mx-auto font-light leading-relaxed dark:text-zinc-400">
+                Let&apos;s discuss how AI automation can transform your operations while staying true to your values
+              </p>
+            </FadeIn>
+            <FadeIn delay={0.4}>
+              <div className="flex flex-col sm:flex-row gap-6 justify-center mb-16">
+                <Link href="/contact">
+                  <button className="w-full sm:w-auto px-8 py-4 bg-zinc-900 text-white rounded-full font-medium text-lg transition-all duration-300 hover:bg-black hover:scale-105 shadow-sm inline-flex items-center justify-center dark:bg-white dark:text-black dark:hover:bg-zinc-200">
+                    Schedule Consultation
+                    <ArrowRight className="ml-2 w-4 h-4" />
+                  </button>
                 </Link>
-              </button>
-              <button className="kortex-button text-lg px-8 py-4">
-                <Link href="/portfolio" className="flex items-center justify-center">
-                  View Case Studies
-                  <ArrowRight className="ml-2 w-4 h-4" />
+                <Link href="/portfolio">
+                  <button className="w-full sm:w-auto px-8 py-4 bg-white border border-zinc-200 text-zinc-900 rounded-full font-medium text-lg transition-all duration-300 hover:bg-zinc-50 hover:border-zinc-300 inline-flex items-center justify-center dark:bg-transparent dark:border-white/20 dark:text-white dark:hover:bg-white/5">
+                    View Case Studies
+                    <ArrowRight className="ml-2 w-4 h-4" />
+                  </button>
                 </Link>
-              </button>
-            </div>
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-6 text-center">
-              <div className="kortex-card p-4">
-                <h3 className="font-semibold text-white mb-1">Free Discovery Call</h3>
-                <p className="text-gray-300 text-sm">30-minute consultation</p>
               </div>
-              <div className="kortex-card p-4">
-                <h3 className="font-semibold text-white mb-1">Custom Solutions</h3>
-                <p className="text-gray-300 text-sm">Tailored to your needs</p>
+              <div className="grid grid-cols-1 md:grid-cols-3 gap-6 text-center">
+                <div className="p-6 bg-zinc-50 rounded-2xl border border-black/5 dark:bg-white/5 dark:border-white/5">
+                  <h3 className="font-medium text-zinc-900 mb-1 dark:text-white">Free Discovery Call</h3>
+                  <p className="text-zinc-500 text-sm font-light dark:text-zinc-400">30-minute consultation</p>
+                </div>
+                <div className="p-6 bg-zinc-50 rounded-2xl border border-black/5 dark:bg-white/5 dark:border-white/5">
+                  <h3 className="font-medium text-zinc-900 mb-1 dark:text-white">Custom Solutions</h3>
+                  <p className="text-zinc-500 text-sm font-light dark:text-zinc-400">Tailored to your needs</p>
+                </div>
+                <div className="p-6 bg-zinc-50 rounded-2xl border border-black/5 dark:bg-white/5 dark:border-white/5">
+                  <h3 className="font-medium text-zinc-900 mb-1 dark:text-white">Ongoing Support</h3>
+                  <p className="text-zinc-500 text-sm font-light dark:text-zinc-400">Continuous optimization</p>
+                </div>
               </div>
-              <div className="kortex-card p-4">
-                <h3 className="font-semibold text-white mb-1">Ongoing Support</h3>
-                <p className="text-gray-300 text-sm">Continuous optimization</p>
-              </div>
-            </div>
+            </FadeIn>
           </div>
         </section>
       </main>

@@ -1,5 +1,4 @@
 import Link from 'next/link';
-import { Separator } from '@/components/ui/separator';
 
 export default function Footer() {
   const navigation = {
@@ -23,26 +22,23 @@ export default function Footer() {
   };
 
   return (
-    <footer className="bg-[#0a0a0a] text-white border-t border-[#2a2a2a]">
-      <div className="container mx-auto px-4 sm:px-6 lg:px-8 py-12">
-        <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
+    <footer className="bg-background border-t border-black/5 pt-24 pb-12 dark:border-white/5">
+      <div className="container mx-auto px-4 sm:px-6 lg:px-8 max-w-7xl">
+        <div className="grid grid-cols-1 md:grid-cols-4 gap-12 lg:gap-24">
           {/* Brand */}
-          <div className="col-span-1 md:col-span-2">
-            <div className="flex items-center space-x-3 mb-6">
-              <div className="w-8 h-8 bg-gradient-to-r from-purple-500 to-pink-500 rounded-full flex items-center justify-center">
-                <span className="text-white font-bold text-sm">Z</span>
-              </div>
-              <span className="text-xl font-bold">Zenware</span>
-            </div>
-            <p className="text-gray-400 mb-6 max-w-md text-lg">
-              Conscious Technology for New Earth Systems. Bridging ancient wisdom with cutting-edge AI to create regenerative, sovereign, and decentralized systems.
+          <div className="col-span-1 md:col-span-2 space-y-8">
+            <Link href="/" className="inline-block">
+              <span className="text-2xl font-light tracking-tight text-zinc-900 dark:text-white">Zenware</span>
+            </Link>
+            <p className="text-zinc-500 font-light text-lg leading-relaxed max-w-sm dark:text-zinc-400">
+              Conscious Technology for New Earth Systems. Bridging ancient wisdom with cutting-edge AI.
             </p>
             <div className="flex space-x-6">
               {navigation.social.map((item) => (
                 <Link
                   key={item.name}
                   href={item.href}
-                  className="text-gray-400 hover:text-purple-400 transition-colors"
+                  className="text-zinc-500 hover:text-zinc-900 transition-colors dark:hover:text-white"
                   target="_blank"
                   rel="noopener noreferrer"
                 >
@@ -54,13 +50,13 @@ export default function Footer() {
 
           {/* Navigation */}
           <div>
-            <h3 className="text-lg font-semibold mb-6 text-white">Navigation</h3>
-            <ul className="space-y-3">
+            <h3 className="text-sm font-medium text-zinc-900 mb-6 uppercase tracking-wider dark:text-white">Navigation</h3>
+            <ul className="space-y-4">
               {navigation.main.map((item) => (
                 <li key={item.name}>
                   <Link
                     href={item.href}
-                    className="text-gray-400 hover:text-white transition-colors"
+                    className="text-zinc-500 hover:text-zinc-900 transition-colors font-light dark:hover:text-white"
                   >
                     {item.name}
                   </Link>
@@ -71,48 +67,32 @@ export default function Footer() {
 
           {/* Contact */}
           <div>
-            <h3 className="text-lg font-semibold mb-6 text-white">Contact</h3>
-            <ul className="space-y-3 text-gray-400">
-              <li>
-                <Link
-                  href="mailto:info@zenware.io"
-                  className="hover:text-purple-400 transition-colors"
-                >
-                  info@zenware.io
-                </Link>
-              </li>
-              <li>
-                <Link
-                  href="mailto:automation@zenware.io"
-                  className="hover:text-purple-400 transition-colors"
-                >
-                  automation@zenware.io
-                </Link>
-              </li>
-              <li>
-                <Link
-                  href="mailto:partners@zenware.io"
-                  className="hover:text-purple-400 transition-colors"
-                >
-                  partners@zenware.io
-                </Link>
-              </li>
+            <h3 className="text-sm font-medium text-zinc-900 mb-6 uppercase tracking-wider dark:text-white">Contact</h3>
+            <ul className="space-y-4">
+              {['info', 'automation', 'partners'].map((email) => (
+                <li key={email}>
+                  <Link
+                    href={`mailto:${email}@zenware.io`}
+                    className="text-zinc-500 hover:text-zinc-900 transition-colors font-light dark:hover:text-white"
+                  >
+                    {email}@zenware.io
+                  </Link>
+                </li>
+              ))}
             </ul>
           </div>
         </div>
 
-        <Separator className="my-8 bg-[#2a2a2a]" />
-
-        <div className="flex flex-col md:flex-row items-center justify-between">
-          <p className="text-gray-400 text-sm">
+        <div className="mt-24 pt-8 border-t border-black/5 flex flex-col md:flex-row items-center justify-between gap-6 dark:border-white/5">
+          <p className="text-zinc-600 text-sm font-light dark:text-zinc-500">
             © {new Date().getFullYear()} Zenware. All rights reserved.
           </p>
-          <div className="flex space-x-6 mt-4 md:mt-0">
+          <div className="flex space-x-8">
             {navigation.legal.map((item) => (
               <Link
                 key={item.name}
                 href={item.href}
-                className="text-gray-400 hover:text-white text-sm transition-colors"
+                className="text-zinc-600 hover:text-zinc-900 text-sm transition-colors font-light dark:text-zinc-500 dark:hover:text-white"
               >
                 {item.name}
               </Link>

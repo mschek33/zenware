@@ -1,58 +1,57 @@
-import { Shield, Brain, Network } from 'lucide-react';
+'use client';
+
+import { Brain, Heart, Zap } from 'lucide-react';
+import { StaggerContainer, FadeIn, ScaleIn } from '@/components/animations/fade-in';
 
 export default function ValuePropositions() {
-  const propositions = [
-    {
-      icon: Shield,
-      title: 'Enterprise Excellence',
-      description: 'Mission-critical reliability from superyacht industry experience',
-      gradient: 'from-purple-500 to-pink-500',
-    },
+  const values = [
     {
       icon: Brain,
-      title: 'Conscious Innovation',
-      description: 'Technology designed with spiritual principles and regenerative focus',
-      gradient: 'from-pink-500 to-purple-500',
+      title: 'Conscious Intelligence',
+      description: 'AI solutions that amplify human potential rather than replacing it.',
+      color: 'bg-purple-100 text-purple-700 dark:bg-purple-900/20 dark:text-purple-300',
     },
     {
-      icon: Network,
-      title: 'AI Integration',
-      description: 'Pioneering conscious AI implementation for business transformation',
-      gradient: 'from-purple-600 to-pink-600',
+      icon: Heart,
+      title: 'Human-Centric Design',
+      description: 'Interfaces that respect user attention and promote digital wellbeing.',
+      color: 'bg-pink-100 text-pink-700 dark:bg-pink-900/20 dark:text-pink-300',
+    },
+    {
+      icon: Zap,
+      title: 'Regenerative Performance',
+      description: 'Efficient, scalable systems designed for long-term sustainability.',
+      color: 'bg-orange-100 text-orange-700 dark:bg-orange-900/20 dark:text-orange-300',
     },
   ];
 
   return (
-    <section className="kortex-section-alt bg-grid-pattern">
-      <div className="container mx-auto max-w-6xl">
-        <div className="text-center mb-20">
-          <h2 className="kortex-section-title text-white mb-6">
-            Why Choose{' '}
-            <span className="kortex-text-gradient">Zenware?</span>
-          </h2>
-          <p className="kortex-subtitle max-w-3xl mx-auto">
-            Where enterprise excellence meets conscious innovation - technology that serves both business success and planetary healing.
-          </p>
-        </div>
+    <section className="py-24 bg-zinc-50 dark:bg-black/20">
+      <div className="container px-4 mx-auto">
+        <StaggerContainer className="grid gap-8 md:grid-cols-3" staggerDelay={0.2}>
+          {values.map((value, index) => (
+            <ScaleIn
+              key={index}
+              className="group relative p-8 rounded-3xl bg-white border border-black/5 hover:bg-zinc-50 transition-all duration-500 hover:border-black/10 overflow-hidden shadow-sm dark:bg-zinc-900/50 dark:border-white/5 dark:hover:bg-white/5 dark:hover:border-white/10"
+            >
+              <div className="absolute inset-0 bg-gradient-to-br from-black/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500 dark:from-white/5" />
 
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-          {propositions.map((prop, index) => (
-            <div key={index} className="kortex-feature-card text-center group">
-              <div className="relative mb-8">
-                <div className={`w-24 h-24 bg-gradient-to-r ${prop.gradient} rounded-2xl flex items-center justify-center mx-auto shadow-lg group-hover:shadow-xl transition-shadow duration-300 kortex-glow`}>
-                  <prop.icon className="w-12 h-12 text-white" />
+              <div className="relative z-10">
+                <div className={`mb-6 w-14 h-14 rounded-2xl flex items-center justify-center group-hover:scale-110 transition-transform duration-500 ${value.color}`}>
+                  <value.icon className="w-6 h-6 stroke-1.5" />
                 </div>
-                <div className="absolute inset-0 bg-gradient-to-r from-purple-500/20 to-pink-500/20 rounded-2xl blur-xl opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+
+                <h3 className="text-xl font-medium text-zinc-900 mb-3 tracking-wide dark:text-white">
+                  {value.title}
+                </h3>
+
+                <p className="text-zinc-600 font-light leading-relaxed group-hover:text-zinc-800 transition-colors dark:text-zinc-400 dark:group-hover:text-zinc-300">
+                  {value.description}
+                </p>
               </div>
-              <h3 className="text-2xl font-bold text-white mb-4">
-                {prop.title}
-              </h3>
-              <p className="text-gray-300 text-lg leading-relaxed">
-                {prop.description}
-              </p>
-            </div>
+            </ScaleIn>
           ))}
-        </div>
+        </StaggerContainer>
       </div>
     </section>
   );
