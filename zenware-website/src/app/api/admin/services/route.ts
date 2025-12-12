@@ -5,7 +5,7 @@ import { PrismaClient } from '@prisma/client'
 const prisma = new PrismaClient()
 
 // GET /api/admin/services - Get all services
-export async function GET(_request: NextRequest) {
+export async function GET() {
   try {
     const session = await auth()
     if (!session) {

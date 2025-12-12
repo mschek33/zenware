@@ -1,7 +1,5 @@
 import Header from '@/components/layout/header';
 import Footer from '@/components/layout/footer';
-import { Button } from '@/components/ui/button';
-import { Badge } from '@/components/ui/badge';
 import Link from 'next/link';
 import { ArrowRight, Cog, Brain, TrendingUp, CheckCircle, Clock, Users } from 'lucide-react';
 import { FadeIn, StaggerContainer, ScaleIn } from '@/components/animations/fade-in';
