@@ -37,67 +37,11 @@ export default function AdminNewsletters() {
   const fetchNewsletters = async () => {
     try {
       setIsLoading(true)
-      await new Promise(resolve => setTimeout(resolve, 1000))
-
-      const mockNewsletters: Newsletter[] = [
-        {
-          id: '1',
-          email: 'john.doe@example.com',
-          name: 'John Doe',
-          subscribed: true,
-          createdAt: '2024-01-15T10:30:00Z'
-        },
-        {
-          id: '2',
-          email: 'sarah.wilson@techcorp.com',
-          name: 'Sarah Wilson',
-          subscribed: true,
-          createdAt: '2024-01-14T14:15:00Z'
-        },
-        {
-          id: '3',
-          email: 'michael.chen@startup.co',
-          name: 'Michael Chen',
-          subscribed: false,
-          createdAt: '2024-01-13T09:45:00Z'
-        },
-        {
-          id: '4',
-          email: 'lisa.anderson@consciousco.org',
-          name: 'Lisa Anderson',
-          subscribed: true,
-          createdAt: '2024-01-12T16:20:00Z'
-        },
-        {
-          id: '5',
-          email: 'robert@enterprise.com',
-          subscribed: true,
-          createdAt: '2024-01-11T11:10:00Z'
-        },
-        {
-          id: '6',
-          email: 'emma.brown@greentech.io',
-          name: 'Emma Brown',
-          subscribed: true,
-          createdAt: '2024-01-10T08:30:00Z'
-        },
-        {
-          id: '7',
-          email: 'david.kim@innovate.co',
-          name: 'David Kim',
-          subscribed: false,
-          createdAt: '2024-01-09T15:45:00Z'
-        },
-        {
-          id: '8',
-          email: 'jennifer.garcia@conscious.ai',
-          name: 'Jennifer Garcia',
-          subscribed: true,
-          createdAt: '2024-01-08T12:20:00Z'
-        }
-      ]
-
-      setNewsletters(mockNewsletters)
+      const res = await fetch('/api/admin/newsletters')
+      if (res.ok) {
+        const data = await res.json()
+        setNewsletters(data)
+      }
     } catch (error) {
       console.error('Failed to fetch newsletters:', error)
     } finally {
@@ -109,7 +53,10 @@ export default function AdminNewsletters() {
     if (!confirm('Are you sure you want to delete this subscriber? This action cannot be undone.')) return
 
     try {
-      setNewsletters(prev => prev.filter(s => s.id !== subscriberId))
+      const res = await fetch(`/api/admin/newsletters/${subscriberId}`, { method: 'DELETE' })
+      if (res.ok) {
+        setNewsletters(prev => prev.filter(s => s.id !== subscriberId))
+      }
     } catch (error) {
       console.error('Failed to delete subscriber:', error)
     }
@@ -164,8 +111,8 @@ export default function AdminNewsletters() {
 
   if (status === 'loading' || status === 'unauthenticated') {
     return (
-      <div className="min-h-screen bg-[#0a0a0a] flex items-center justify-center">
-        <div className="animate-spin rounded-full h-32 w-32 border-b-2 border-purple-500"></div>
+      <div className="min-h-screen bg-zinc-50 flex items-center justify-center">
+        <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-purple-500"></div>
       </div>
     )
   }
@@ -180,20 +127,20 @@ export default function AdminNewsletters() {
         {/* Header */}
         <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between">
           <div>
-            <h2 className="text-3xl font-bold text-white">Newsletter Subscribers</h2>
-            <p className="text-gray-400 mt-1">Manage your newsletter subscriptions</p>
+            <h2 className="text-2xl font-semibold text-zinc-900">Newsletter Subscribers</h2>
+            <p className="text-zinc-500 mt-1">Manage your newsletter subscriptions</p>
           </div>
           <div className="flex gap-2 mt-4 sm:mt-0">
             <button
               onClick={() => exportSubscribers(true)}
-              className="kortex-button flex items-center"
+              className="flex items-center px-4 py-2.5 bg-white border border-zinc-200 text-zinc-700 rounded-xl font-medium hover:bg-zinc-50 transition-colors"
             >
               <Download className="h-4 w-4 mr-2" />
               Export Active
             </button>
             <button
               onClick={() => exportSubscribers(false)}
-              className="kortex-button-primary flex items-center"
+              className="flex items-center px-4 py-2.5 bg-zinc-900 text-white rounded-xl font-medium hover:bg-black transition-colors"
             >
               <Download className="h-4 w-4 mr-2" />
               Export All
@@ -202,52 +149,52 @@ export default function AdminNewsletters() {
         </div>
 
         {/* Stats */}
-        <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
-          <div className="kortex-card">
+        <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
+          <div className="bg-white rounded-2xl border border-zinc-200 p-5 shadow-sm">
             <div className="flex items-center">
-              <div className="p-3 rounded-full bg-gradient-to-r from-blue-500 to-blue-600">
-                <Mail className="h-6 w-6 text-white" />
+              <div className="p-3 rounded-xl bg-blue-100">
+                <Mail className="h-5 w-5 text-blue-600" />
               </div>
               <div className="ml-4">
-                <p className="text-sm font-medium text-gray-400">Total Subscribers</p>
-                <p className="text-2xl font-bold text-white">{newsletters.length}</p>
+                <p className="text-sm text-zinc-500">Total Subscribers</p>
+                <p className="text-2xl font-semibold text-zinc-900">{newsletters.length}</p>
               </div>
             </div>
           </div>
-          <div className="kortex-card">
+          <div className="bg-white rounded-2xl border border-zinc-200 p-5 shadow-sm">
             <div className="flex items-center">
-              <div className="p-3 rounded-full bg-gradient-to-r from-green-500 to-green-600">
-                <UserCheck className="h-6 w-6 text-white" />
+              <div className="p-3 rounded-xl bg-green-100">
+                <UserCheck className="h-5 w-5 text-green-600" />
               </div>
               <div className="ml-4">
-                <p className="text-sm font-medium text-gray-400">Active</p>
-                <p className="text-2xl font-bold text-white">
+                <p className="text-sm text-zinc-500">Active</p>
+                <p className="text-2xl font-semibold text-zinc-900">
                   {newsletters.filter(s => s.subscribed).length}
                 </p>
               </div>
             </div>
           </div>
-          <div className="kortex-card">
+          <div className="bg-white rounded-2xl border border-zinc-200 p-5 shadow-sm">
             <div className="flex items-center">
-              <div className="p-3 rounded-full bg-gradient-to-r from-red-500 to-red-600">
-                <UserX className="h-6 w-6 text-white" />
+              <div className="p-3 rounded-xl bg-red-100">
+                <UserX className="h-5 w-5 text-red-600" />
               </div>
               <div className="ml-4">
-                <p className="text-sm font-medium text-gray-400">Unsubscribed</p>
-                <p className="text-2xl font-bold text-white">
+                <p className="text-sm text-zinc-500">Unsubscribed</p>
+                <p className="text-2xl font-semibold text-zinc-900">
                   {newsletters.filter(s => !s.subscribed).length}
                 </p>
               </div>
             </div>
           </div>
-          <div className="kortex-card">
+          <div className="bg-white rounded-2xl border border-zinc-200 p-5 shadow-sm">
             <div className="flex items-center">
-              <div className="p-3 rounded-full bg-gradient-to-r from-purple-500 to-purple-600">
-                <Calendar className="h-6 w-6 text-white" />
+              <div className="p-3 rounded-xl bg-purple-100">
+                <Calendar className="h-5 w-5 text-purple-600" />
               </div>
               <div className="ml-4">
-                <p className="text-sm font-medium text-gray-400">This Week</p>
-                <p className="text-2xl font-bold text-white">
+                <p className="text-sm text-zinc-500">This Week</p>
+                <p className="text-2xl font-semibold text-zinc-900">
                   {newsletters.filter(s =>
                     new Date(s.createdAt) > new Date(Date.now() - 7 * 24 * 60 * 60 * 1000)
                   ).length}
@@ -258,17 +205,17 @@ export default function AdminNewsletters() {
         </div>
 
         {/* Filters */}
-        <div className="kortex-card">
+        <div className="bg-white rounded-2xl border border-zinc-200 p-4 shadow-sm">
           <div className="flex flex-col sm:flex-row gap-4">
             <div className="flex-1">
               <div className="relative">
-                <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 h-4 w-4" />
+                <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-zinc-400 h-4 w-4" />
                 <input
                   type="text"
                   placeholder="Search subscribers..."
                   value={searchTerm}
                   onChange={(e) => setSearchTerm(e.target.value)}
-                  className="kortex-input pl-10 w-full"
+                  className="w-full pl-10 pr-4 py-2.5 bg-zinc-50 border border-zinc-200 rounded-xl text-zinc-900 placeholder-zinc-400 focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-transparent transition-all"
                 />
               </div>
             </div>
@@ -276,7 +223,7 @@ export default function AdminNewsletters() {
               <select
                 value={filterStatus}
                 onChange={(e) => setFilterStatus(e.target.value)}
-                className="kortex-input w-full"
+                className="w-full px-4 py-2.5 bg-zinc-50 border border-zinc-200 rounded-xl text-zinc-900 focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-transparent transition-all"
               >
                 <option value="all">All Subscribers</option>
                 <option value="subscribed">Active Only</option>
@@ -290,61 +237,62 @@ export default function AdminNewsletters() {
         {isLoading ? (
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
             {[...Array(9)].map((_, i) => (
-              <div key={i} className="kortex-card animate-pulse">
-                <div className="h-4 bg-gray-700 rounded w-3/4 mb-2"></div>
-                <div className="h-3 bg-gray-700 rounded w-1/2 mb-3"></div>
-                <div className="h-3 bg-gray-700 rounded w-1/3"></div>
+              <div key={i} className="bg-white rounded-2xl border border-zinc-200 p-5 shadow-sm animate-pulse">
+                <div className="h-4 bg-zinc-100 rounded w-3/4 mb-2"></div>
+                <div className="h-3 bg-zinc-100 rounded w-1/2 mb-3"></div>
+                <div className="h-3 bg-zinc-100 rounded w-1/3"></div>
               </div>
             ))}
           </div>
         ) : filteredNewsletters.length === 0 ? (
-          <div className="kortex-card text-center py-12">
-            <p className="text-gray-400 text-lg">No subscribers found</p>
-            <p className="text-gray-500 mt-2">Try adjusting your search filters</p>
+          <div className="bg-white rounded-2xl border border-zinc-200 p-12 shadow-sm text-center">
+            <Mail className="h-12 w-12 text-zinc-300 mx-auto mb-4" />
+            <p className="text-zinc-500 text-lg">No subscribers found</p>
+            <p className="text-zinc-400 mt-1">Try adjusting your search filters</p>
           </div>
         ) : (
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
             {filteredNewsletters.map((subscriber) => (
-              <div key={subscriber.id} className="kortex-card group">
+              <div key={subscriber.id} className="bg-white rounded-2xl border border-zinc-200 p-5 shadow-sm group hover:shadow-md transition-shadow">
                 <div className="flex items-start justify-between mb-3">
                   <div className="flex items-center gap-3">
-                    <div className="w-10 h-10 rounded-full bg-gradient-to-r from-purple-500 to-pink-500 flex items-center justify-center">
+                    <div className="w-10 h-10 rounded-full bg-gradient-to-br from-purple-500 to-pink-500 flex items-center justify-center">
                       <Mail className="h-5 w-5 text-white" />
                     </div>
                     <div className="flex-1 min-w-0">
                       {subscriber.name && (
-                        <h3 className="font-semibold text-white text-sm truncate">
+                        <h3 className="font-semibold text-zinc-900 text-sm truncate">
                           {subscriber.name}
                         </h3>
                       )}
-                      <p className="text-xs text-gray-300 truncate">{subscriber.email}</p>
+                      <p className="text-xs text-zinc-600 truncate">{subscriber.email}</p>
                     </div>
                   </div>
                   <span className={`px-2 py-1 rounded-full text-xs font-medium ${subscriber.subscribed
-                      ? 'bg-green-500/20 text-green-400'
-                      : 'bg-red-500/20 text-red-400'
+                      ? 'bg-green-100 text-green-700'
+                      : 'bg-red-100 text-red-700'
                     }`}>
                     {subscriber.subscribed ? 'Active' : 'Unsubscribed'}
                   </span>
                 </div>
 
-                <div className="text-xs text-gray-500 mb-4">
+                <div className="text-xs text-zinc-400 mb-4">
                   Joined {new Date(subscriber.createdAt).toLocaleDateString()}
                 </div>
 
                 <div className="flex items-center justify-between opacity-0 group-hover:opacity-100 transition-opacity">
                   <button
                     onClick={() => handleToggleSubscription(subscriber)}
-                    className={`px-3 py-1 rounded-lg text-xs font-medium transition-colors ${subscriber.subscribed
-                        ? 'bg-red-500/20 text-red-400 hover:bg-red-500/30'
-                        : 'bg-green-500/20 text-green-400 hover:bg-green-500/30'
+                    className={`px-3 py-1.5 rounded-lg text-xs font-medium transition-colors ${subscriber.subscribed
+                        ? 'bg-red-50 text-red-600 hover:bg-red-100'
+                        : 'bg-green-50 text-green-600 hover:bg-green-100'
                       }`}
                   >
                     {subscriber.subscribed ? 'Unsubscribe' : 'Resubscribe'}
                   </button>
                   <button
                     onClick={() => handleDeleteSubscriber(subscriber.id)}
-                    className="p-2 text-gray-400 hover:text-red-400 hover:bg-red-500/10 rounded-lg transition-colors"
+                    className="p-2 text-zinc-400 hover:text-red-600 hover:bg-red-50 rounded-lg transition-colors"
                   >
                     <Trash2 className="h-4 w-4" />
                   </button>
@@ -355,13 +303,13 @@ export default function AdminNewsletters() {
         )}
 
         {/* Subscription Growth Chart Placeholder */}
-        <div className="kortex-card">
-          <h3 className="text-xl font-bold text-white mb-4">Subscription Growth</h3>
-          <div className="h-64 flex items-center justify-center border-2 border-dashed border-gray-600 rounded-lg">
+        <div className="bg-white rounded-2xl border border-zinc-200 p-6 shadow-sm">
+          <h3 className="text-lg font-semibold text-zinc-900 mb-4">Subscription Growth</h3>
+          <div className="h-64 flex items-center justify-center border-2 border-dashed border-zinc-200 rounded-xl">
             <div className="text-center">
-              <Calendar className="h-12 w-12 text-gray-400 mx-auto mb-4" />
-              <p className="text-gray-400">Growth chart placeholder</p>
-              <p className="text-sm text-gray-500 mt-1">Integrate with your analytics service</p>
+              <Calendar className="h-12 w-12 text-zinc-300 mx-auto mb-4" />
+              <p className="text-zinc-500">Growth chart placeholder</p>
+              <p className="text-sm text-zinc-400 mt-1">Integrate with your analytics service</p>
             </div>
           </div>
         </div>

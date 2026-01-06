@@ -1,8 +1,8 @@
 import Header from '@/components/layout/header';
 import Footer from '@/components/layout/footer';
-import HeroSection from '@/components/sections/hero-section';
-import ValuePropositions from '@/components/sections/value-propositions';
-import FeaturedProjects from '@/components/sections/featured-projects';
+import AuditHeroSection from '@/components/sections/audit-hero-section';
+import DreamFrameworkSection from '@/components/sections/dream-framework-section';
+import StartAuditSection from '@/components/sections/start-audit-section';
 import TrustIndicators from '@/components/sections/trust-indicators';
 import CallToAction from '@/components/sections/call-to-action';
 
@@ -11,9 +11,9 @@ export default function Home() {
     <div className="min-h-screen">
       <Header />
       <main>
-        <HeroSection />
-        <ValuePropositions />
-        <FeaturedProjects />
+        <AuditHeroSection />
+        <DreamFrameworkSection />
+        <StartAuditSection />
         <TrustIndicators />
         <CallToAction />
       </main>

@@ -60,3 +60,6 @@ export interface NewsletterForm {
   email: string;
   name?: string;
 }
+
+// Re-export assessment types
+export * from './assessment';

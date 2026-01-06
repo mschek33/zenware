@@ -19,12 +19,11 @@ export default function Header() {
   }, []);
 
   const navigation = [
-    { name: 'Home', href: '/' },
-    { name: 'About', href: '/about' },
-    { name: 'Solutions', href: '/solutions' },
-    { name: 'AI Automation', href: '/ai-automation' },
-    { name: 'Portfolio', href: '/portfolio' },
-    { name: 'Blog', href: '/blog' },
+    { name: 'AI Audit', href: '/assessment', highlight: true },
+    { name: 'About', href: '/about', highlight: false },
+    { name: 'Solutions', href: '/solutions', highlight: false },
+    { name: 'Portfolio', href: '/portfolio', highlight: false },
+    { name: 'Blog', href: '/blog', highlight: false },
   ];
 
   return (
@@ -54,7 +53,12 @@ export default function Header() {
             <Link
               key={item.name}
               href={item.href}
-              className="text-sm text-zinc-600 hover:text-black px-4 py-2 rounded-full transition-all duration-300 hover:bg-black/5 dark:text-zinc-400 dark:hover:text-white dark:hover:bg-white/5"
+              className={cn(
+                "text-sm px-4 py-2 rounded-full transition-all duration-300",
+                item.highlight
+                  ? "text-purple-700 bg-purple-100 hover:bg-purple-200 font-medium dark:text-purple-300 dark:bg-purple-900/30 dark:hover:bg-purple-900/50"
+                  : "text-zinc-600 hover:text-black hover:bg-black/5 dark:text-zinc-400 dark:hover:text-white dark:hover:bg-white/5"
+              )}
             >
               {item.name}
             </Link>
@@ -91,7 +95,12 @@ export default function Header() {
               <Link
                 key={item.name}
                 href={item.href}
-                className="block px-4 py-3 text-zinc-600 hover:text-black hover:bg-black/5 rounded-xl transition-colors font-medium dark:text-zinc-400 dark:hover:text-white dark:hover:bg-white/5"
+                className={cn(
+                  "block px-4 py-3 rounded-xl transition-colors font-medium",
+                  item.highlight
+                    ? "text-purple-700 bg-purple-100 hover:bg-purple-200 dark:text-purple-300 dark:bg-purple-900/30 dark:hover:bg-purple-900/50"
+                    : "text-zinc-600 hover:text-black hover:bg-black/5 dark:text-zinc-400 dark:hover:text-white dark:hover:bg-white/5"
+                )}
                 onClick={() => setIsMenuOpen(false)}
               >
                 {item.name}

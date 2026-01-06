@@ -100,3 +100,43 @@ model Service {
 
   @@map("services")
 }
+
+model Assessment {
+  id                    String    @id @default(cuid())
+  tier                  String    // mini | medium | indepth
+  status                String    @default("in_progress") // in_progress | completed | abandoned
+
+  // Contact Info
+  name                  String?
+  email                 String?
+  company               String?
+  phone                 String?
+
+  // DREAM Scores (1-10 scale)
+  demandScore           Float?
+  revenueScore          Float?
+  engineScore           Float?
+  adminScore            Float?
+  marketingScore        Float?
+  overallScore          Float?
+
+  // Raw Responses (JSON object with question IDs as keys)
+  responses             Json?
+
+  // AI-Generated Implementation Strategy
+  aiStrategy            String?   @db.Text
+  aiStrategyGeneratedAt DateTime?
+
+  // Timestamps
+  startedAt             DateTime  @default(now())
+  completedAt           DateTime?
+
+  // Flags
+  pdfRequested          Boolean   @default(false)
+  consultationRequested Boolean   @default(false)
+
+  createdAt             DateTime  @default(now())
+  updatedAt             DateTime  @updatedAt
+
+  @@map("assessments")
+}

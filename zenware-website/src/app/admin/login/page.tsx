@@ -6,6 +6,7 @@ import { useRouter } from "next/navigation"
 import { useForm } from "react-hook-form"
 import { zodResolver } from "@hookform/resolvers/zod"
 import { z } from "zod"
+import { Loader2 } from "lucide-react"
 
 const loginSchema = z.object({
   email: z.string().email("Invalid email address"),
@@ -61,72 +62,87 @@ export default function AdminLogin() {
   }
 
   return (
-    <div className="kortex-section min-h-screen flex items-center justify-center bg-grid-pattern">
-      <div className="kortex-card w-full max-w-md mx-4">
-        <div className="text-center mb-8">
-          <div className="w-16 h-16 mx-auto mb-4 rounded-full bg-gradient-to-r from-purple-500 to-pink-500 flex items-center justify-center">
-            <span className="text-2xl font-bold text-white">Z</span>
-          </div>
-          <h1 className="kortex-subsection-title text-center mb-2">Admin Login</h1>
-          <p className="kortex-body text-gray-400">
-            Access the Zenware admin dashboard
-          </p>
-        </div>
+    <div className="min-h-screen bg-zinc-50 flex items-center justify-center p-4">
+      {/* Background decoration */}
+      <div className="absolute inset-0 overflow-hidden pointer-events-none">
+        <div className="absolute top-1/4 -left-32 w-96 h-96 bg-purple-100/50 rounded-full blur-3xl"></div>
+        <div className="absolute bottom-1/4 -right-32 w-96 h-96 bg-pink-100/50 rounded-full blur-3xl"></div>
+      </div>
 
-        <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
-          <div>
-            <label htmlFor="email" className="block text-sm font-medium mb-2 text-gray-300">
-              Email Address
-            </label>
-            <input
-              {...register("email")}
-              type="email"
-              id="email"
-              className="kortex-input w-full"
-              placeholder="admin@zenware.ai"
-              disabled={isLoading}
-            />
-            {errors.email && (
-              <p className="text-red-400 text-sm mt-1">{errors.email.message}</p>
-            )}
-          </div>
-
-          <div>
-            <label htmlFor="password" className="block text-sm font-medium mb-2 text-gray-300">
-              Password
-            </label>
-            <input
-              {...register("password")}
-              type="password"
-              id="password"
-              className="kortex-input w-full"
-              placeholder="Enter your password"
-              disabled={isLoading}
-            />
-            {errors.password && (
-              <p className="text-red-400 text-sm mt-1">{errors.password.message}</p>
-            )}
-          </div>
-
-          {error && (
-            <div className="bg-red-500/10 border border-red-500/20 rounded-lg p-3">
-              <p className="text-red-400 text-sm">{error}</p>
+      <div className="relative w-full max-w-md">
+        <div className="bg-white rounded-3xl border border-zinc-200 shadow-xl p-8">
+          <div className="text-center mb-8">
+            <div className="w-16 h-16 mx-auto mb-4 rounded-2xl bg-gradient-to-br from-purple-500 to-pink-500 flex items-center justify-center shadow-lg shadow-purple-500/25">
+              <span className="text-2xl font-bold text-white">Z</span>
             </div>
-          )}
+            <h1 className="text-2xl font-semibold text-zinc-900 mb-2">Admin Login</h1>
+            <p className="text-zinc-500">
+              Access the Zenware admin dashboard
+            </p>
+          </div>
 
-          <button
-            type="submit"
-            disabled={isLoading}
-            className="kortex-button-primary w-full py-3 disabled:opacity-50 disabled:cursor-not-allowed"
-          >
-            {isLoading ? "Signing in..." : "Sign In"}
-          </button>
-        </form>
+          <form onSubmit={handleSubmit(onSubmit)} className="space-y-5">
+            <div>
+              <label htmlFor="email" className="block text-sm font-medium mb-2 text-zinc-700">
+                Email Address
+              </label>
+              <input
+                {...register("email")}
+                type="email"
+                id="email"
+                className="w-full px-4 py-3 bg-zinc-50 border border-zinc-200 rounded-xl text-zinc-900 placeholder-zinc-400 focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-transparent transition-all disabled:opacity-50 disabled:cursor-not-allowed"
+                placeholder="admin@zenware.ai"
+                disabled={isLoading}
+              />
+              {errors.email && (
+                <p className="text-red-500 text-sm mt-1.5">{errors.email.message}</p>
+              )}
+            </div>
 
-        <div className="mt-8 text-center">
-          <p className="text-sm text-gray-500">
-            Demo credentials: admin@zenware.ai / zenware123
-          </p>
+            <div>
+              <label htmlFor="password" className="block text-sm font-medium mb-2 text-zinc-700">
+                Password
+              </label>
+              <input
+                {...register("password")}
+                type="password"
+                id="password"
+                className="w-full px-4 py-3 bg-zinc-50 border border-zinc-200 rounded-xl text-zinc-900 placeholder-zinc-400 focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-transparent transition-all disabled:opacity-50 disabled:cursor-not-allowed"
+                placeholder="Enter your password"
+                disabled={isLoading}
+              />
+              {errors.password && (
+                <p className="text-red-500 text-sm mt-1.5">{errors.password.message}</p>
+              )}
+            </div>
+
+            {error && (
+              <div className="bg-red-50 border border-red-200 rounded-xl p-3">
+                <p className="text-red-600 text-sm">{error}</p>
+              </div>
+            )}
+
+            <button
+              type="submit"
+              disabled={isLoading}
+              className="w-full py-3 px-4 bg-zinc-900 text-white rounded-xl font-medium hover:bg-black focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-zinc-900 transition-all disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2"
+            >
+              {isLoading ? (
+                <>
+                  <Loader2 className="h-4 w-4 animate-spin" />
+                  Signing in...
+                </>
+              ) : (
+                'Sign In'
+              )}
+            </button>
+          </form>
+
+          <div className="mt-8 text-center">
+            <p className="text-xs text-zinc-400">
+              Demo credentials: admin@zenware.ai / zenware123
+            </p>
+          </div>
         </div>
       </div>
     </div>
