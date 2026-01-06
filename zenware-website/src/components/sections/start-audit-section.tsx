@@ -34,7 +34,7 @@ export default function StartAuditSection() {
                 <div
                   className={`
                     group relative p-8 rounded-3xl h-full
-                    border transition-all duration-300 cursor-pointer
+                    border transition-[border-color,box-shadow] duration-300 cursor-pointer
                     ${
                       index === 1
                         ? 'bg-gradient-to-b from-purple-50 to-white border-purple-200 hover:border-purple-300 hover:shadow-xl hover:shadow-purple-500/10 dark:from-purple-900/20 dark:to-zinc-900 dark:border-purple-500/50'

@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useEffect, useCallback } from 'react';
+import { useState, useEffect, useCallback, useRef } from 'react';
 import Link from 'next/link';
 import {
   Download,
@@ -16,6 +16,7 @@ import {
   Sparkles,
   RefreshCw,
   AlertCircle,
+  FileDown,
 } from 'lucide-react';
 import { DreamScores, DreamPillar, PILLAR_INFO, AssessmentResponses, QuizTier } from '@/types/assessment';
 import { getScoreRating, generateRecommendations, getQuestionsForTier } from '@/lib/scoring';
@@ -30,6 +31,7 @@ interface ResultsDashboardProps {
   responses?: AssessmentResponses;
   initialStrategy?: string | null;
   initialStrategyGeneratedAt?: string | null;
+  initialEmail?: string | null;
 }
 
 export default function ResultsDashboard({
@@ -39,9 +41,10 @@ export default function ResultsDashboard({
   responses = {},
   initialStrategy = null,
   initialStrategyGeneratedAt = null,
+  initialEmail = null,
 }: ResultsDashboardProps) {
   const [expandedPillar, setExpandedPillar] = useState<DreamPillar | null>(null);
-  const [email, setEmail] = useState('');
+  const [email, setEmail] = useState(initialEmail || '');
   const [emailSubmitted, setEmailSubmitted] = useState(false);
   const [isSubmittingEmail, setIsSubmittingEmail] = useState(false);
   const [showResponses, setShowResponses] = useState(false);
@@ -53,6 +56,34 @@ export default function ResultsDashboard({
   const [isGeneratingStrategy, setIsGeneratingStrategy] = useState(false);
   const [strategyError, setStrategyError] = useState<string | null>(null);
   const [showStrategy, setShowStrategy] = useState(!!initialStrategy);
+  const [isDownloadingPdf, setIsDownloadingPdf] = useState(false);
+  const strategyContentRef = useRef<HTMLDivElement>(null);
+
+  const downloadStrategyAsPdf = async () => {
+    if (!aiStrategy || !strategyContentRef.current) return;
+
+    setIsDownloadingPdf(true);
+    try {
+      // Dynamically import html2pdf to avoid SSR issues
+      const html2pdf = (await import('html2pdf.js')).default;
+
+      const element = strategyContentRef.current;
+      const opt = {
+        margin: [15, 15, 15, 15],
+        filename: `DREAM-AI-Strategy-${new Date().toISOString().split('T')[0]}.pdf`,
+        image: { type: 'jpeg', quality: 0.98 },
+        html2canvas: { scale: 2, useCORS: true },
+        jsPDF: { unit: 'mm', format: 'a4', orientation: 'portrait' as const },
+        pagebreak: { mode: ['avoid-all', 'css', 'legacy'] },
+      };
+
+      await html2pdf().set(opt).from(element).save();
+    } catch (error) {
+      console.error('Failed to generate PDF:', error);
+    } finally {
+      setIsDownloadingPdf(false);
+    }
+  };
 
   const fetchExistingStrategy = useCallback(async () => {
     try {
@@ -362,18 +393,35 @@ export default function ResultsDashboard({
                     </span>
                   )}
                 </div>
-                <button
-                  onClick={generateStrategy}
-                  disabled={isGeneratingStrategy}
-                  className="inline-flex items-center gap-2 px-4 py-2 text-sm font-medium text-purple-600 hover:text-purple-700 hover:bg-purple-50 rounded-lg transition-colors disabled:opacity-50 dark:text-purple-400 dark:hover:bg-purple-900/30"
-                >
-                  <RefreshCw className={`w-4 h-4 ${isGeneratingStrategy ? 'animate-spin' : ''}`} />
-                  Regenerate
-                </button>
+                <div className="flex items-center gap-2">
+                  <button
+                    onClick={downloadStrategyAsPdf}
+                    disabled={isDownloadingPdf}
+                    className="inline-flex items-center gap-2 px-4 py-2 text-sm font-medium text-zinc-600 hover:text-zinc-900 hover:bg-zinc-100 rounded-lg transition-colors disabled:opacity-50 dark:text-zinc-400 dark:hover:text-white dark:hover:bg-zinc-800"
+                  >
+                    {isDownloadingPdf ? (
+                      <Loader2 className="w-4 h-4 animate-spin" />
+                    ) : (
+                      <FileDown className="w-4 h-4" />
+                    )}
+                    Download PDF
+                  </button>
+                  <button
+                    onClick={generateStrategy}
+                    disabled={isGeneratingStrategy}
+                    className="inline-flex items-center gap-2 px-4 py-2 text-sm font-medium text-purple-600 hover:text-purple-700 hover:bg-purple-50 rounded-lg transition-colors disabled:opacity-50 dark:text-purple-400 dark:hover:bg-purple-900/30"
+                  >
+                    <RefreshCw className={`w-4 h-4 ${isGeneratingStrategy ? 'animate-spin' : ''}`} />
+                    Regenerate
+                  </button>
+                </div>
               </div>
 
               {/* Strategy content with markdown rendering */}
-              <div className="prose prose-zinc max-w-none dark:prose-invert prose-headings:font-semibold prose-h2:text-xl prose-h2:mt-8 prose-h2:mb-4 prose-h3:text-lg prose-h3:mt-6 prose-h3:mb-3 prose-p:text-zinc-600 prose-p:leading-relaxed dark:prose-p:text-zinc-400 prose-li:text-zinc-600 dark:prose-li:text-zinc-400 prose-strong:text-zinc-900 dark:prose-strong:text-white prose-ul:space-y-1 prose-ol:space-y-1">
+              <div
+                ref={strategyContentRef}
+                className="prose prose-zinc max-w-none dark:prose-invert prose-headings:font-semibold prose-h2:text-xl prose-h2:mt-8 prose-h2:mb-4 prose-h3:text-lg prose-h3:mt-6 prose-h3:mb-3 prose-p:text-zinc-600 prose-p:leading-relaxed dark:prose-p:text-zinc-400 prose-li:text-zinc-600 dark:prose-li:text-zinc-400 prose-strong:text-zinc-900 dark:prose-strong:text-white prose-ul:space-y-1 prose-ol:space-y-1"
+              >
                 <ReactMarkdown>{aiStrategy}</ReactMarkdown>
               </div>
             </div>

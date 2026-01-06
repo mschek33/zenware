@@ -13,10 +13,17 @@ import { getQuestionsForTier, calculateScores } from '@/lib/scoring';
 import QuizProgress from './QuizProgress';
 import QuestionCard from './QuestionCard';
 
+interface LeadInfo {
+  email: string;
+  name: string;
+  company: string;
+}
+
 interface QuizWizardProps {
   tier: QuizTier;
   onComplete: (assessmentId: string, scores: DreamScores) => void;
   onBack: () => void;
+  leadInfo?: LeadInfo;
 }
 
 const STORAGE_KEY = 'zenware_assessment_progress';
@@ -28,7 +35,7 @@ interface StoredProgress {
   timestamp: number;
 }
 
-export default function QuizWizard({ tier, onComplete, onBack }: QuizWizardProps) {
+export default function QuizWizard({ tier, onComplete, onBack, leadInfo }: QuizWizardProps) {
   const questions = getQuestionsForTier(tier);
   const tierConfig = TIER_CONFIGS.find((t) => t.tier === tier)!;
 
@@ -113,13 +120,18 @@ export default function QuizWizard({ tier, onComplete, onBack }: QuizWizardProps
       // Calculate scores
       const scores = calculateScores(responses, tier);
 
-      // Submit to API
+      // Submit to API with lead info
       const res = await fetch('/api/assessments', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
           tier,
           responses,
+          contact: leadInfo ? {
+            email: leadInfo.email || undefined,
+            name: leadInfo.name || undefined,
+            company: leadInfo.company || undefined,
+          } : undefined,
         }),
       });
 

@@ -121,13 +121,17 @@ export function ScaleIn({
 }: { delay?: number; duration?: number } & HTMLMotionProps<'div'>) {
     return (
         <motion.div
-            initial={{ opacity: 0, scale: 0.9 }}
-            whileInView={{ opacity: 1, scale: 1 }}
-            viewport={{ once: true }}
-            transition={{
-                duration: duration,
-                delay: delay,
-                ease: [0.21, 0.47, 0.32, 0.98],
+            variants={{
+                hidden: { opacity: 0, scale: 0.95 },
+                visible: {
+                    opacity: 1,
+                    scale: 1,
+                    transition: {
+                        duration: duration,
+                        delay: delay,
+                        ease: [0.21, 0.47, 0.32, 0.98],
+                    }
+                },
             }}
             className={className}
             {...props}

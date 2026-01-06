@@ -73,7 +73,7 @@ export default function DreamFrameworkSection() {
           {pillars.map((pillar) => (
             <ScaleIn
               key={pillar.letter}
-              className="group relative p-6 rounded-3xl bg-zinc-50 border border-black/5 hover:bg-white hover:shadow-lg transition-all duration-500 dark:bg-zinc-900/50 dark:border-white/5 dark:hover:bg-zinc-800/50"
+              className="group relative p-6 rounded-3xl bg-zinc-50 border border-black/5 hover:bg-white hover:shadow-lg transition-[background-color,box-shadow,border-color] duration-300 dark:bg-zinc-900/50 dark:border-white/5 dark:hover:bg-zinc-800/50"
             >
               {/* Letter badge */}
               <div className="absolute -top-3 left-6">
