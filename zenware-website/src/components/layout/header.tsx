@@ -1,6 +1,7 @@
 'use client';
 
 import Link from 'next/link';
+import Image from 'next/image';
 import { useState, useEffect } from 'react';
 import { Button } from '@/components/ui/button';
 import { Menu, X } from 'lucide-react';
@@ -40,11 +41,15 @@ export default function Header() {
           : "bg-transparent border-transparent py-4"
       )}>
         {/* Logo */}
-        <Link href="/" className="flex items-center space-x-2 group">
-          <div className="w-8 h-8 rounded-full bg-black/5 flex items-center justify-center group-hover:bg-black/10 transition-colors border border-black/5 dark:bg-white/10 dark:border-white/10">
-            <span className="text-zinc-900 font-medium text-sm dark:text-white">Z</span>
-          </div>
-          <span className="text-lg font-medium text-zinc-900 tracking-tight dark:text-white">Zenware</span>
+        <Link href="/" className="flex items-center group">
+          <Image
+            src="/ZenwareLogoSmall.png"
+            alt="Zenware"
+            width={340}
+            height={96}
+            className="h-24 w-auto object-contain"
+            priority
+          />
         </Link>
 
         {/* Desktop Navigation */}

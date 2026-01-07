@@ -112,6 +112,13 @@ model Assessment {
   company               String?
   phone                 String?
 
+  // Company Details (for AI strategy customization)
+  companySize           String?   // e.g., "1-10", "11-50", "51-200", "201-500", "500+"
+  industry              String?
+  yearlyRevenue         String?   // e.g., "<100k", "100k-500k", "1m-5m", "50m+"
+  companyDescription    String?   @db.Text
+  customHelpNeeded      String?   @db.Text  // Custom areas where they need help
+
   // DREAM Scores (1-10 scale)
   demandScore           Float?
   revenueScore          Float?

@@ -17,6 +17,11 @@ interface LeadInfo {
   email: string;
   name: string;
   company: string;
+  companySize: string;
+  industry: string;
+  yearlyRevenue: string;
+  companyDescription: string;
+  customHelpNeeded: string;
 }
 
 interface QuizWizardProps {
@@ -131,6 +136,11 @@ export default function QuizWizard({ tier, onComplete, onBack, leadInfo }: QuizW
             email: leadInfo.email || undefined,
             name: leadInfo.name || undefined,
             company: leadInfo.company || undefined,
+            companySize: leadInfo.companySize || undefined,
+            industry: leadInfo.industry || undefined,
+            yearlyRevenue: leadInfo.yearlyRevenue || undefined,
+            companyDescription: leadInfo.companyDescription || undefined,
+            customHelpNeeded: leadInfo.customHelpNeeded || undefined,
           } : undefined,
         }),
       });

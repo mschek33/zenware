@@ -79,6 +79,11 @@ export async function POST(request: Request, { params }: RouteParams) {
       responses,
       companyName: assessment.company || undefined,
       contactName: assessment.name || undefined,
+      companySize: assessment.companySize || undefined,
+      industry: assessment.industry || undefined,
+      yearlyRevenue: assessment.yearlyRevenue || undefined,
+      companyDescription: assessment.companyDescription || undefined,
+      customHelpNeeded: assessment.customHelpNeeded || undefined,
     });
 
     // Save the strategy to the database

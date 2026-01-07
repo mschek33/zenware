@@ -14,6 +14,11 @@ const AssessmentSubmissionSchema = z.object({
       email: z.string().email().optional().or(z.literal('')),
       company: z.string().optional(),
       phone: z.string().optional(),
+      companySize: z.string().optional(),
+      industry: z.string().optional(),
+      yearlyRevenue: z.string().optional(),
+      companyDescription: z.string().optional(),
+      customHelpNeeded: z.string().optional(),
     })
     .optional(),
 });
@@ -43,6 +48,11 @@ export async function POST(request: Request) {
         email: validated.contact?.email || null,
         company: validated.contact?.company || null,
         phone: validated.contact?.phone || null,
+        companySize: validated.contact?.companySize || null,
+        industry: validated.contact?.industry || null,
+        yearlyRevenue: validated.contact?.yearlyRevenue || null,
+        companyDescription: validated.contact?.companyDescription || null,
+        customHelpNeeded: validated.contact?.customHelpNeeded || null,
         completedAt: new Date(),
       },
     });

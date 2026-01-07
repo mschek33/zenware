@@ -35,7 +35,7 @@ export default async function ResultsPage({ params }: PageProps) {
   return (
     <div className="min-h-screen bg-zinc-50 dark:bg-zinc-950">
       <Header />
-      <main className="pt-28 pb-12">
+      <main className="pt-36 pb-12">
         <div className="container px-4 mx-auto">
           <ResultsDashboard
             assessmentId={id}

@@ -1,4 +1,5 @@
 import Link from 'next/link';
+import Image from 'next/image';
 
 export default function Footer() {
   const navigation = {
@@ -28,7 +29,13 @@ export default function Footer() {
           {/* Brand */}
           <div className="col-span-1 md:col-span-2 space-y-8">
             <Link href="/" className="inline-block">
-              <span className="text-2xl font-light tracking-tight text-zinc-900 dark:text-white">Zenware</span>
+              <Image
+                src="/ZenwareLogoSmall.png"
+                alt="Zenware"
+                width={160}
+                height={45}
+                className="h-10 w-auto object-contain"
+              />
             </Link>
             <p className="text-zinc-500 font-light text-lg leading-relaxed max-w-sm dark:text-zinc-400">
               Conscious Technology for New Earth Systems. Bridging ancient wisdom with cutting-edge AI.

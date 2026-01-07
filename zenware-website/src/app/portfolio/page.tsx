@@ -100,7 +100,7 @@ export default function Portfolio() {
   return (
     <div className="min-h-screen bg-background">
       <Header />
-      <main className="pt-24 md:pt-32">
+      <main className="pt-32 md:pt-40">
         {/* Hero Section */}
         <section className="relative pb-24 overflow-hidden">
           {/* Ambient Background Effects */}

@@ -12,6 +12,11 @@ interface AssessmentContext {
   responses: AssessmentResponses;
   companyName?: string;
   contactName?: string;
+  companySize?: string;
+  industry?: string;
+  yearlyRevenue?: string;
+  companyDescription?: string;
+  customHelpNeeded?: string;
 }
 
 interface QuestionAnswer {
@@ -88,7 +93,7 @@ function groupByPillar(qas: QuestionAnswer[]): Record<DreamPillar, QuestionAnswe
  * Build the comprehensive prompt for Claude
  */
 function buildStrategyPrompt(context: AssessmentContext): string {
-  const { tier, scores, responses, companyName, contactName } = context;
+  const { tier, scores, responses, companyName, contactName, companySize, industry, yearlyRevenue, companyDescription, customHelpNeeded } = context;
   const qas = formatResponsesForAI(responses, tier);
   const groupedQAs = groupByPillar(qas);
 
@@ -97,6 +102,32 @@ function buildStrategyPrompt(context: AssessmentContext): string {
     medium: 'Standard Assessment (~20 minutes, 70 questions)',
     indepth: 'Comprehensive Audit (~40 minutes, 100 questions)',
   }[tier];
+
+  // Build company context section
+  const hasCompanyContext = companyName || companySize || industry || yearlyRevenue || companyDescription;
+  let companyContextSection = '';
+  if (hasCompanyContext) {
+    companyContextSection = `
+## Company Profile
+${companyName ? `- **Company Name**: ${companyName}` : ''}
+${companySize ? `- **Company Size**: ${companySize} employees` : ''}
+${industry ? `- **Industry**: ${industry}` : ''}
+${yearlyRevenue ? `- **Yearly Revenue**: ${yearlyRevenue}` : ''}
+${companyDescription ? `- **About the Company**: ${companyDescription}` : ''}
+`;
+  }
+
+  // Build custom help needed section
+  let customHelpSection = '';
+  if (customHelpNeeded) {
+    customHelpSection = `
+## Specific Areas Where They Need Help
+The client has specifically mentioned they need help with:
+${customHelpNeeded}
+
+**IMPORTANT**: Make sure to directly address these specific pain points in your recommendations. These are their priority concerns.
+`;
+  }
 
   let prompt = `You are a senior AI automation consultant at Zenware, a company specializing in helping businesses transform their operations with AI. You are analyzing the results of a DREAM Framework AI Audit.
 
@@ -110,9 +141,8 @@ DREAM stands for the five pillars of business AI transformation:
 
 ## Assessment Details
 - **Assessment Type**: ${tierDescription}
-${companyName ? `- **Company**: ${companyName}` : ''}
 ${contactName ? `- **Contact**: ${contactName}` : ''}
-
+${companyContextSection}${customHelpSection}
 ## Overall Scores (0-10 scale)
 - **Overall Score**: ${scores.overall.toFixed(1)}/10
 - **Demand**: ${scores.demand.toFixed(1)}/10
@@ -149,6 +179,10 @@ ${contactName ? `- **Contact**: ${contactName}` : ''}
 
 Based on the assessment responses and scores above, create a **comprehensive AI implementation strategy** for this organization. Your analysis should be actionable, specific, and prioritized.
 
+**CRITICAL**: If company profile information is provided above (company size, industry, description), you MUST tailor ALL recommendations specifically to that context. A 10-person startup needs different tools than a 500+ enterprise. Healthcare companies have different compliance needs than retail. Use industry-specific examples and tool recommendations.
+
+**CRITICAL**: If the client has specified areas where they need help, make sure those specific pain points are addressed prominently in your recommendations.
+
 ### Required Sections
 
 1. **Executive Summary** (2-3 paragraphs)
@@ -156,6 +190,7 @@ Based on the assessment responses and scores above, create a **comprehensive AI 
    - Key strengths identified
    - Critical gaps that need immediate attention
    - Expected ROI potential from AI implementation
+   - If industry is provided, mention industry-specific opportunities
 
 2. **Pillar-by-Pillar Analysis** (for each of the 5 DREAM pillars)
    - Current state assessment based on their responses
@@ -181,7 +216,12 @@ Based on the assessment responses and scores above, create a **comprehensive AI 
    - Time savings estimates per pillar
    - Revenue impact projections where applicable
 
-6. **Next Steps**
+6. **Addressing Your Specific Concerns** (ONLY if the client mentioned specific areas they need help with)
+   - Directly address each concern they mentioned
+   - Provide specific solutions and tools for each
+   - Explain how these fit into the broader implementation plan
+
+7. **Next Steps**
    - Top 3 actions to take this week
    - Key stakeholders to involve
    - Recommended consultation topics for deeper exploration

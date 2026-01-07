@@ -8,7 +8,10 @@
       "Bash(npm uninstall:*)",
       "Bash(mkdir:*)",
       "Bash(npm run dev:*)",
-      "Bash(npm run build:*)"
+      "Bash(npm run build:*)",
+      "Bash(git add:*)",
+      "Bash(git commit -m \"$\\(cat <<''EOF''\nFeat: Assessment flow improvements and PDF download\n\nAssessment Flow:\n- URL parameter ?tier= now works, skips tier selection\n- Lead capture form before quiz \\(email required\\)\n- Email auto-fills on results page from saved data\n- Results page spacing fix \\(badge not hidden by header\\)\n\nPDF Download:\n- Added \"Download PDF\" button for AI Implementation Strategy\n- Uses html2pdf.js for client-side PDF generation\n- Includes full strategy with proper A4 formatting\n\nBug Fixes:\n- Fixed framer-motion card flashing \\(ScaleIn uses variants now\\)\n- Specific CSS transitions instead of transition-all\n- Added Suspense boundary for useSearchParams \\(Next.js 15\\)\n\n🤖 Generated with [Claude Code]\\(https://claude.com/claude-code\\)\n\nCo-Authored-By: Claude Opus 4.5 <noreply@anthropic.com>\nEOF\n\\)\")",
+      "Bash(grep:*)"
     ],
     "deny": []
   }

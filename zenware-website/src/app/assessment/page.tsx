@@ -2,7 +2,7 @@
 
 import { useState, useEffect, Suspense } from 'react';
 import { useSearchParams } from 'next/navigation';
-import { Sparkles, ArrowLeft, Mail, User, Building, Loader2 } from 'lucide-react';
+import { Sparkles, ArrowLeft, Mail, User, Building, Loader2, Users, Briefcase, FileText, HelpCircle, DollarSign } from 'lucide-react';
 import Link from 'next/link';
 import { QuizTier, DreamScores } from '@/types/assessment';
 import TierSelector from '@/components/assessment/TierSelector';
@@ -17,6 +17,11 @@ interface LeadInfo {
   email: string;
   name: string;
   company: string;
+  companySize: string;
+  industry: string;
+  yearlyRevenue: string;
+  companyDescription: string;
+  customHelpNeeded: string;
 }
 
 function AssessmentContent() {
@@ -25,7 +30,16 @@ function AssessmentContent() {
   const [selectedTier, setSelectedTier] = useState<QuizTier | null>(null);
   const [assessmentId, setAssessmentId] = useState<string | null>(null);
   const [scores, setScores] = useState<DreamScores | null>(null);
-  const [leadInfo, setLeadInfo] = useState<LeadInfo>({ email: '', name: '', company: '' });
+  const [leadInfo, setLeadInfo] = useState<LeadInfo>({
+    email: '',
+    name: '',
+    company: '',
+    companySize: '',
+    industry: '',
+    yearlyRevenue: '',
+    companyDescription: '',
+    customHelpNeeded: '',
+  });
   const [isSubmitting, setIsSubmitting] = useState(false);
 
   // Read tier from URL on mount
@@ -71,7 +85,7 @@ function AssessmentContent() {
   return (
     <div className="min-h-screen bg-zinc-50 dark:bg-zinc-950">
       <Header />
-      <main className="pt-20">
+      <main className="pt-32">
         {/* Hero Section */}
         {phase === 'select' && (
           <section className="py-16 bg-gradient-to-b from-white to-zinc-50 dark:from-zinc-900 dark:to-zinc-950">
@@ -171,6 +185,116 @@ function AssessmentContent() {
                       </div>
                     </div>
 
+                    <div className="grid grid-cols-2 gap-4">
+                      <div>
+                        <label htmlFor="companySize" className="block text-sm font-medium text-zinc-700 mb-1.5 dark:text-zinc-300">
+                          Company Size
+                        </label>
+                        <div className="relative">
+                          <Users className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-zinc-400 pointer-events-none" />
+                          <select
+                            id="companySize"
+                            value={leadInfo.companySize}
+                            onChange={(e) => setLeadInfo({ ...leadInfo, companySize: e.target.value })}
+                            className="w-full pl-11 pr-4 py-3 bg-zinc-50 border border-zinc-200 rounded-xl text-zinc-900 focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-transparent dark:bg-zinc-800 dark:border-zinc-600 dark:text-white appearance-none cursor-pointer"
+                          >
+                            <option value="">Select size</option>
+                            <option value="1-10">1-10 employees</option>
+                            <option value="11-50">11-50 employees</option>
+                            <option value="51-200">51-200 employees</option>
+                            <option value="201-500">201-500 employees</option>
+                            <option value="500+">500+ employees</option>
+                          </select>
+                        </div>
+                      </div>
+
+                      <div>
+                        <label htmlFor="industry" className="block text-sm font-medium text-zinc-700 mb-1.5 dark:text-zinc-300">
+                          Industry
+                        </label>
+                        <div className="relative">
+                          <Briefcase className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-zinc-400 pointer-events-none" />
+                          <select
+                            id="industry"
+                            value={leadInfo.industry}
+                            onChange={(e) => setLeadInfo({ ...leadInfo, industry: e.target.value })}
+                            className="w-full pl-11 pr-4 py-3 bg-zinc-50 border border-zinc-200 rounded-xl text-zinc-900 focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-transparent dark:bg-zinc-800 dark:border-zinc-600 dark:text-white appearance-none cursor-pointer"
+                          >
+                            <option value="">Select industry</option>
+                            <option value="Technology">Technology</option>
+                            <option value="Healthcare">Healthcare</option>
+                            <option value="Finance">Finance & Banking</option>
+                            <option value="Retail">Retail & E-commerce</option>
+                            <option value="Manufacturing">Manufacturing</option>
+                            <option value="Professional Services">Professional Services</option>
+                            <option value="Real Estate">Real Estate</option>
+                            <option value="Education">Education</option>
+                            <option value="Media">Media & Entertainment</option>
+                            <option value="Non-profit">Non-profit</option>
+                            <option value="Other">Other</option>
+                          </select>
+                        </div>
+                      </div>
+                    </div>
+
+                    <div>
+                      <label htmlFor="yearlyRevenue" className="block text-sm font-medium text-zinc-700 mb-1.5 dark:text-zinc-300">
+                        Yearly Revenue
+                      </label>
+                      <div className="relative">
+                        <DollarSign className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-zinc-400 pointer-events-none" />
+                        <select
+                          id="yearlyRevenue"
+                          value={leadInfo.yearlyRevenue}
+                          onChange={(e) => setLeadInfo({ ...leadInfo, yearlyRevenue: e.target.value })}
+                          className="w-full pl-11 pr-4 py-3 bg-zinc-50 border border-zinc-200 rounded-xl text-zinc-900 focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-transparent dark:bg-zinc-800 dark:border-zinc-600 dark:text-white appearance-none cursor-pointer"
+                        >
+                          <option value="">Select revenue range</option>
+                          <option value="<100k">Less than $100k</option>
+                          <option value="100k-500k">$100k - $500k</option>
+                          <option value="500k-1m">$500k - $1M</option>
+                          <option value="1m-5m">$1M - $5M</option>
+                          <option value="5m-10m">$5M - $10M</option>
+                          <option value="10m-50m">$10M - $50M</option>
+                          <option value="50m+">$50M+</option>
+                        </select>
+                      </div>
+                    </div>
+
+                    <div>
+                      <label htmlFor="companyDescription" className="block text-sm font-medium text-zinc-700 mb-1.5 dark:text-zinc-300">
+                        Tell us about your company
+                      </label>
+                      <div className="relative">
+                        <FileText className="absolute left-3 top-3 w-5 h-5 text-zinc-400" />
+                        <textarea
+                          id="companyDescription"
+                          value={leadInfo.companyDescription}
+                          onChange={(e) => setLeadInfo({ ...leadInfo, companyDescription: e.target.value })}
+                          placeholder="What does your company do? What products or services do you offer?"
+                          rows={3}
+                          className="w-full pl-11 pr-4 py-3 bg-zinc-50 border border-zinc-200 rounded-xl text-zinc-900 placeholder-zinc-400 focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-transparent dark:bg-zinc-800 dark:border-zinc-600 dark:text-white resize-none"
+                        />
+                      </div>
+                    </div>
+
+                    <div>
+                      <label htmlFor="customHelpNeeded" className="block text-sm font-medium text-zinc-700 mb-1.5 dark:text-zinc-300">
+                        What specific areas do you need help with?
+                      </label>
+                      <div className="relative">
+                        <HelpCircle className="absolute left-3 top-3 w-5 h-5 text-zinc-400" />
+                        <textarea
+                          id="customHelpNeeded"
+                          value={leadInfo.customHelpNeeded}
+                          onChange={(e) => setLeadInfo({ ...leadInfo, customHelpNeeded: e.target.value })}
+                          placeholder="e.g., We struggle with lead follow-up, our proposal process takes too long, we need better customer support automation..."
+                          rows={3}
+                          className="w-full pl-11 pr-4 py-3 bg-zinc-50 border border-zinc-200 rounded-xl text-zinc-900 placeholder-zinc-400 focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-transparent dark:bg-zinc-800 dark:border-zinc-600 dark:text-white resize-none"
+                        />
+                      </div>
+                    </div>
+
                     <button
                       type="submit"
                       disabled={isSubmitting || !leadInfo.email}
@@ -247,7 +371,7 @@ function AssessmentLoading() {
   return (
     <div className="min-h-screen bg-zinc-50 dark:bg-zinc-950">
       <Header />
-      <main className="pt-20">
+      <main className="pt-32">
         <div className="flex items-center justify-center min-h-[60vh]">
           <div className="text-center">
             <Loader2 className="w-8 h-8 animate-spin text-purple-500 mx-auto mb-4" />
