@@ -145,5 +145,29 @@ model Assessment {
   createdAt             DateTime  @default(now())
   updatedAt             DateTime  @updatedAt
 
+  // Referral tracking
+  referralCode          String?
+  affiliateId           String?
+  affiliate             Affiliate? @relation(fields: [affiliateId], references: [id])
+
   @@map("assessments")
+}
+
+model Affiliate {
+  id             String       @id @default(cuid())
+  referralCode   String       @unique // Human-readable: "JOHN2024", "PARTNER1"
+  name           String
+  email          String       @unique
+  password       String       // Hashed with bcryptjs
+  company        String?
+  phone          String?
+  isActive       Boolean      @default(true)
+  notes          String?      @db.Text
+  totalReferrals Int          @default(0)
+  createdAt      DateTime     @default(now())
+  updatedAt      DateTime     @updatedAt
+  lastLoginAt    DateTime?
+  assessments    Assessment[]
+
+  @@map("affiliates")
 }

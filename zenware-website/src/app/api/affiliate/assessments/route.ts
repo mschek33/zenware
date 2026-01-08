@@ -2,15 +2,18 @@ import { NextResponse } from 'next/server';
 import { auth } from '../../../../../auth';
 import { prisma } from '@/lib/prisma';
 
-// GET /api/admin/assessments - Get all assessments (admin only)
+// GET /api/affiliate/assessments - Get affiliate's referred assessments
 export async function GET() {
   try {
     const session = await auth();
-    if (!session) {
+    if (!session || session.user?.role !== 'affiliate') {
       return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
     }
 
+    const affiliateId = session.user?.id;
+
     const assessments = await prisma.assessment.findMany({
+      where: { affiliateId },
       orderBy: { createdAt: 'desc' },
       select: {
         id: true,
@@ -32,20 +35,12 @@ export async function GET() {
         completedAt: true,
         createdAt: true,
         referralCode: true,
-        affiliateId: true,
-        affiliate: {
-          select: {
-            id: true,
-            name: true,
-            referralCode: true,
-          },
-        },
       },
     });
 
     return NextResponse.json(assessments);
   } catch (error) {
-    console.error('Error fetching assessments:', error);
+    console.error('Error fetching affiliate assessments:', error);
     return NextResponse.json({ error: 'Internal server error' }, { status: 500 });
   }
 }

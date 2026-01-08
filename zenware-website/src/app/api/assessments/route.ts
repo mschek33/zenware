@@ -8,6 +8,7 @@ import type { QuizTier } from '@/types/assessment';
 const AssessmentSubmissionSchema = z.object({
   tier: z.enum(['mini', 'medium', 'indepth']),
   responses: z.record(z.string(), z.union([z.string(), z.number(), z.array(z.string())])),
+  referralCode: z.string().optional(),
   contact: z
     .object({
       name: z.string().optional(),
@@ -32,6 +33,27 @@ export async function POST(request: Request) {
     // Calculate scores from responses
     const scores = calculateScores(validated.responses, validated.tier as QuizTier);
 
+    // Look up affiliate by referral code if provided
+    let affiliateId: string | null = null;
+    if (validated.referralCode) {
+      const affiliate = await prisma.affiliate.findUnique({
+        where: {
+          referralCode: validated.referralCode.toUpperCase(),
+          isActive: true,
+        },
+      });
+
+      if (affiliate) {
+        affiliateId = affiliate.id;
+
+        // Increment the affiliate's total referrals count
+        await prisma.affiliate.update({
+          where: { id: affiliate.id },
+          data: { totalReferrals: { increment: 1 } },
+        });
+      }
+    }
+
     // Create the assessment record
     const assessment = await prisma.assessment.create({
       data: {
@@ -53,6 +75,8 @@ export async function POST(request: Request) {
         yearlyRevenue: validated.contact?.yearlyRevenue || null,
         companyDescription: validated.contact?.companyDescription || null,
         customHelpNeeded: validated.contact?.customHelpNeeded || null,
+        referralCode: validated.referralCode?.toUpperCase() || null,
+        affiliateId: affiliateId,
         completedAt: new Date(),
       },
     });

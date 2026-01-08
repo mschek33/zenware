@@ -6,44 +6,44 @@ import { usePathname } from 'next/navigation'
 import { signOut, useSession } from 'next-auth/react'
 import {
   Home,
-  Users,
-  FolderOpen,
-  Wrench,
-  FileText,
-  Mail,
-  UserCheck,
+  Link2,
   LogOut,
   Menu,
   X,
-  ClipboardCheck,
-  UserPlus,
-  Link2
+  Copy,
+  Check
 } from 'lucide-react'
 
-interface AdminLayoutProps {
+interface AffiliateLayoutProps {
   children: React.ReactNode
 }
 
 const navigation = [
-  { name: 'Dashboard', href: '/admin', icon: Home },
-  { name: 'Assessments', href: '/admin/assessments', icon: ClipboardCheck },
-  { name: 'Affiliates', href: '/admin/affiliates', icon: UserPlus },
-  { name: 'Referrals', href: '/admin/referrals', icon: Link2 },
-  { name: 'Projects', href: '/admin/projects', icon: FolderOpen },
-  { name: 'Services', href: '/admin/services', icon: Wrench },
-  { name: 'Blog Posts', href: '/admin/blog-posts', icon: FileText },
-  { name: 'Contacts', href: '/admin/contacts', icon: Mail },
-  { name: 'Newsletters', href: '/admin/newsletters', icon: UserCheck },
-  { name: 'Users', href: '/admin/users', icon: Users },
+  { name: 'Dashboard', href: '/affiliate', icon: Home },
+  { name: 'My Referrals', href: '/affiliate/referrals', icon: Link2 },
 ]
 
-export default function AdminLayout({ children }: AdminLayoutProps) {
+export default function AffiliateLayout({ children }: AffiliateLayoutProps) {
   const [sidebarOpen, setSidebarOpen] = useState(false)
+  const [copied, setCopied] = useState(false)
   const pathname = usePathname()
   const { data: session } = useSession()
 
+  const referralCode = session?.user?.referralCode || ''
+  const referralLink = typeof window !== 'undefined'
+    ? `${window.location.origin}/assessment?ref=${referralCode}`
+    : ''
+
   const handleSignOut = async () => {
-    await signOut({ callbackUrl: '/admin/login' })
+    await signOut({ callbackUrl: '/affiliate/login' })
+  }
+
+  const copyReferralLink = async () => {
+    if (referralLink) {
+      await navigator.clipboard.writeText(referralLink)
+      setCopied(true)
+      setTimeout(() => setCopied(false), 2000)
+    }
   }
 
   return (
@@ -54,10 +54,10 @@ export default function AdminLayout({ children }: AdminLayoutProps) {
         <div className="fixed left-0 top-0 h-full w-64 bg-white border-r border-zinc-200 shadow-xl">
           <div className="flex h-16 items-center justify-between px-4 border-b border-zinc-100">
             <div className="flex items-center space-x-3">
-              <div className="w-8 h-8 rounded-full bg-gradient-to-r from-purple-500 to-pink-500 flex items-center justify-center">
-                <span className="text-sm font-bold text-white">Z</span>
+              <div className="w-8 h-8 rounded-full bg-gradient-to-r from-green-500 to-emerald-500 flex items-center justify-center">
+                <Link2 className="w-4 h-4 text-white" />
               </div>
-              <span className="text-xl font-semibold text-zinc-900">Admin</span>
+              <span className="text-xl font-semibold text-zinc-900">Affiliate</span>
             </div>
             <button
               onClick={() => setSidebarOpen(false)}
@@ -75,12 +75,12 @@ export default function AdminLayout({ children }: AdminLayoutProps) {
                   href={item.href}
                   className={`flex items-center px-3 py-2.5 text-sm font-medium rounded-xl transition-all ${
                     isActive
-                      ? 'bg-purple-50 text-purple-700 shadow-sm'
+                      ? 'bg-green-50 text-green-700 shadow-sm'
                       : 'text-zinc-600 hover:text-zinc-900 hover:bg-zinc-100'
                   }`}
                   onClick={() => setSidebarOpen(false)}
                 >
-                  <item.icon className={`mr-3 h-5 w-5 ${isActive ? 'text-purple-600' : 'text-zinc-400'}`} />
+                  <item.icon className={`mr-3 h-5 w-5 ${isActive ? 'text-green-600' : 'text-zinc-400'}`} />
                   {item.name}
                 </Link>
               )
@@ -103,10 +103,10 @@ export default function AdminLayout({ children }: AdminLayoutProps) {
         <div className="flex min-h-0 flex-1 flex-col bg-white border-r border-zinc-200">
           <div className="flex h-16 items-center px-4 border-b border-zinc-100">
             <div className="flex items-center space-x-3">
-              <div className="w-8 h-8 rounded-full bg-gradient-to-r from-purple-500 to-pink-500 flex items-center justify-center">
-                <span className="text-sm font-bold text-white">Z</span>
+              <div className="w-8 h-8 rounded-full bg-gradient-to-r from-green-500 to-emerald-500 flex items-center justify-center">
+                <Link2 className="w-4 h-4 text-white" />
               </div>
-              <span className="text-xl font-semibold text-zinc-900">Admin</span>
+              <span className="text-xl font-semibold text-zinc-900">Affiliate</span>
             </div>
           </div>
           <div className="flex-1 flex flex-col">
@@ -119,20 +119,44 @@ export default function AdminLayout({ children }: AdminLayoutProps) {
                     href={item.href}
                     className={`flex items-center px-3 py-2.5 text-sm font-medium rounded-xl transition-all ${
                       isActive
-                        ? 'bg-purple-50 text-purple-700 shadow-sm'
+                        ? 'bg-green-50 text-green-700 shadow-sm'
                         : 'text-zinc-600 hover:text-zinc-900 hover:bg-zinc-100'
                     }`}
                   >
-                    <item.icon className={`mr-3 h-5 w-5 ${isActive ? 'text-purple-600' : 'text-zinc-400'}`} />
+                    <item.icon className={`mr-3 h-5 w-5 ${isActive ? 'text-green-600' : 'text-zinc-400'}`} />
                     {item.name}
                   </Link>
                 )
               })}
             </nav>
-            <div className="p-3">
-              <div className="mb-3 p-3 bg-zinc-50 rounded-xl border border-zinc-100">
+            <div className="p-3 space-y-3">
+              {/* Referral Code Card */}
+              <div className="p-3 bg-gradient-to-br from-green-50 to-emerald-50 rounded-xl border border-green-100">
+                <p className="text-xs text-green-600 font-medium mb-1">Your Referral Code</p>
+                <code className="text-lg font-mono font-bold text-green-700">{referralCode}</code>
+                <button
+                  onClick={copyReferralLink}
+                  className="mt-2 w-full flex items-center justify-center gap-2 px-3 py-2 bg-white text-green-600 rounded-lg text-sm font-medium hover:bg-green-50 transition-colors border border-green-200"
+                >
+                  {copied ? (
+                    <>
+                      <Check className="w-4 h-4" />
+                      Copied!
+                    </>
+                  ) : (
+                    <>
+                      <Copy className="w-4 h-4" />
+                      Copy Referral Link
+                    </>
+                  )}
+                </button>
+              </div>
+
+              {/* User Info */}
+              <div className="p-3 bg-zinc-50 rounded-xl border border-zinc-100">
                 <p className="text-xs text-zinc-500">Logged in as</p>
-                <p className="text-sm font-medium text-zinc-900 truncate">{session?.user?.email}</p>
+                <p className="text-sm font-medium text-zinc-900 truncate">{session?.user?.name}</p>
+                <p className="text-xs text-zinc-500 truncate">{session?.user?.email}</p>
               </div>
               <button
                 onClick={handleSignOut}
@@ -159,8 +183,17 @@ export default function AdminLayout({ children }: AdminLayoutProps) {
           <div className="flex-1 px-4 flex justify-between lg:px-0">
             <div className="flex items-center">
               <h1 className="text-xl font-semibold text-zinc-900">
-                {navigation.find(item => item.href === pathname)?.name || 'Admin Dashboard'}
+                {navigation.find(item => item.href === pathname)?.name || 'Affiliate Portal'}
               </h1>
+            </div>
+            <div className="lg:hidden flex items-center">
+              <button
+                onClick={copyReferralLink}
+                className="flex items-center gap-2 px-3 py-1.5 bg-green-50 text-green-600 rounded-lg text-sm font-medium hover:bg-green-100 transition-colors"
+              >
+                {copied ? <Check className="w-4 h-4" /> : <Copy className="w-4 h-4" />}
+                {referralCode}
+              </button>
             </div>
           </div>
         </div>

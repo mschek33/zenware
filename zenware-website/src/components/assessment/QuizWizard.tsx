@@ -10,6 +10,7 @@ import {
   TIER_CONFIGS,
 } from '@/types/assessment';
 import { getQuestionsForTier, calculateScores } from '@/lib/scoring';
+import { useReferral } from '@/components/providers/ReferralProvider';
 import QuizProgress from './QuizProgress';
 import QuestionCard from './QuestionCard';
 
@@ -43,6 +44,7 @@ interface StoredProgress {
 export default function QuizWizard({ tier, onComplete, onBack, leadInfo }: QuizWizardProps) {
   const questions = getQuestionsForTier(tier);
   const tierConfig = TIER_CONFIGS.find((t) => t.tier === tier)!;
+  const { referralCode } = useReferral();
 
   const [responses, setResponses] = useState<AssessmentResponses>({});
   const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
@@ -125,13 +127,14 @@ export default function QuizWizard({ tier, onComplete, onBack, leadInfo }: QuizW
       // Calculate scores
       const scores = calculateScores(responses, tier);
 
-      // Submit to API with lead info
+      // Submit to API with lead info and referral code
       const res = await fetch('/api/assessments', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
           tier,
           responses,
+          referralCode: referralCode || undefined,
           contact: leadInfo ? {
             email: leadInfo.email || undefined,
             name: leadInfo.name || undefined,
