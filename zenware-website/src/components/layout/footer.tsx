@@ -75,18 +75,12 @@ export default function Footer() {
           {/* Contact */}
           <div>
             <h3 className="text-sm font-medium text-zinc-900 mb-6 uppercase tracking-wider dark:text-white">Contact</h3>
-            <ul className="space-y-4">
-              {['info', 'automation', 'partners'].map((email) => (
-                <li key={email}>
-                  <Link
-                    href={`mailto:${email}@zenware.io`}
-                    className="text-zinc-500 hover:text-zinc-900 transition-colors font-light dark:hover:text-white"
-                  >
-                    {email}@zenware.io
-                  </Link>
-                </li>
-              ))}
-            </ul>
+            <Link
+              href="mailto:info@zenware.io"
+              className="text-zinc-500 hover:text-zinc-900 transition-colors font-light dark:hover:text-white"
+            >
+              info@zenware.io
+            </Link>
           </div>
         </div>
 

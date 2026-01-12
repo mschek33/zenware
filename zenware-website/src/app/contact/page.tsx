@@ -7,7 +7,7 @@ import { Input } from '@/components/ui/input';
 import { Textarea } from '@/components/ui/textarea';
 import { Label } from '@/components/ui/label';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
-import { Mail, Phone, MapPin, Clock, MessageCircle, Calendar, CheckCircle } from 'lucide-react';
+import { Mail, Phone, MapPin, Clock, MessageCircle, Calendar } from 'lucide-react';
 import { FadeIn, ScaleIn } from '@/components/animations/fade-in';
 
 export default function Contact() {
@@ -92,23 +92,6 @@ export default function Contact() {
     },
   ];
 
-  const specializedEmails = [
-    {
-      title: 'AI Automation',
-      email: 'automation@zenware.io',
-      description: 'For AI automation and process optimization projects',
-    },
-    {
-      title: 'Partnerships',
-      email: 'partners@zenware.io',
-      description: 'For collaboration and partnership opportunities',
-    },
-    {
-      title: 'Media',
-      email: 'media@zenware.io',
-      description: 'For press inquiries and media requests',
-    },
-  ];
 
   return (
     <div className="min-h-screen bg-background">
@@ -322,30 +305,6 @@ export default function Contact() {
                     ))}
                   </div>
 
-                  <div className="bg-zinc-100 rounded-3xl p-8 border border-zinc-200 dark:bg-white/5 dark:border-white/5">
-                    <h3 className="text-xl font-medium text-zinc-900 mb-6 dark:text-white">
-                      Specialized Departments
-                    </h3>
-                    <div className="space-y-6">
-                      {specializedEmails.map((contact, index) => (
-                        <div key={index} className="flex items-start">
-                          <div className="mt-1 mr-4">
-                            <CheckCircle className="w-5 h-5 text-zinc-400 dark:text-zinc-600" />
-                          </div>
-                          <div>
-                            <h4 className="font-medium text-zinc-900 mb-1 dark:text-white">{contact.title}</h4>
-                            <p className="text-sm text-zinc-500 mb-2 dark:text-zinc-400">{contact.description}</p>
-                            <a
-                              href={`mailto:${contact.email}`}
-                              className="text-sm font-medium text-zinc-900 hover:text-zinc-600 transition-colors border-b border-zinc-300 hover:border-zinc-900 pb-0.5 dark:text-white dark:hover:text-zinc-300 dark:border-white/20 dark:hover:border-white"
-                            >
-                              {contact.email}
-                            </a>
-                          </div>
-                        </div>
-                      ))}
-                    </div>
-                  </div>
                 </FadeIn>
 
                 {/* Newsletter Signup */}
